@@ -16,9 +16,13 @@ event(init) ->
     [N] = binary_to_list(Node),
     Topic = iolist_to_binary(["events/",nitro:to_list(N),"/index/anon/",ClientId]),
     io:format("Topic: ~tp~n",[Topic]),
-    n2o:send_reply(ClientId, 2,
-        Topic,
-        term_to_binary(#client{id=Room,data=list}));
+
+    % Block Async
+    % n2o:send_reply(ClientId, 2, Topic, term_to_binary(#client{id=Room,data=list}));
+
+    % True Async
+    [ n2o:send_reply(ClientId, 2, Topic, term_to_binary(#client{data={E#entry.from,E#entry.media}}))
+      || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ];
 
 % proto of roster message
 
