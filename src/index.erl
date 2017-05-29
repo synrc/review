@@ -67,6 +67,6 @@ event(Event)  -> io:format("Event: ~p", [Event]).
 main() -> [].
 
 message_view(Color,User,Message) ->
-   iolist_to_binary(["<table width=500 cellpadding=20 cellspacing=3><tr><td bgcolor=",Color,
+   iolist_to_binary(["<table width='100%' cellpadding=20 cellspacing=3><tr><td bgcolor=",Color,
        " style='color:white;'><b>",User,"</b>: ",Message,"</td></tr></table>"]).
 
