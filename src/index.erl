@@ -25,7 +25,7 @@ event(init) ->
     [ n2o:send_reply(ClientId, 2, Topic, term_to_binary(#client{data={E#entry.from,E#entry.media}}))
       || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ],
 
-    nitro:wire(#jq{target=message,method=[focus,select]}).
+    nitro:wire(#jq{target=message,method=[focus,select]});
 
 % proto of roster message
 
