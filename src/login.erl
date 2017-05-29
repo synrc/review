@@ -13,7 +13,7 @@ event(init) ->
 event(login) ->
     User = nitro:to_list(n2o:q(user)),
     Room = nitro:to_list(n2o:q(pass)),
-    n2o:user(User),
+    n2o:user([]),
     n2o:cache(room,Room),
     nitro:redirect("index.htm?room="++Room);
 
