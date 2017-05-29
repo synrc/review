@@ -14,7 +14,7 @@ event(init) ->
     nitro:update(upload,  #upload { id=upload   }),
     nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
     [ event(#client{data={E#entry.from,E#entry.media}})
-      || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,10)) ];
+      || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ];
 
 event(chat) ->
     User    = n2o:user(),
