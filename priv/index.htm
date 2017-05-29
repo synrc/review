@@ -6,26 +6,20 @@
         <title>Chat</title>
     </head>
     <body>
-        <table cellpadding='20' align='center'>
+        <table cellpadding='20' align='center' width="100%">
             <tr>
-                <td valign='top' align='center' height='230' width='300'>
-                    <br><a href="login.htm"><img src='S.svg' border='0' height='200' style='margin-top:0px;'></a><br>
-                </td>
-                <td colspan='2' width='700' valign='top'>
+                <td valign='top' width=250>
                     <h1><b id='heading'>Roster</b></h1>
+                    <br><a href="login.htm"><img src='S.svg' border='0' height='200' style='margin-top:0px;'></a><br>
                     <h2>Unique Feed<br><button id='logout'></button></h2>
                 </td>
-            </tr>
-            <tr>
-                <td width='300' valign='top'>
+                <td colspan='2' valign='top' height='550' bgcolor='#eeeeee'>
                     <p>Just type what you think about this:</p>
-                    <textarea id=message style='margin-left:5px; width:490px; font-size:16pt;'
+                    <textarea id=message style='margin-left:5px; width:100%; font-size:16pt;'
                       value='' rows='5' autofocus></textarea>
                     <div id=upload></div>
                     <button id=send width=40>Send</button>
                     <div id=history></div>
-                </td>
-                <td colspan='2' width='700' valign='top' height='550' bgcolor='#eeeeee'>
                 </td>
             </tr>
         </table>
