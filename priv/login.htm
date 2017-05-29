@@ -1,12 +1,116 @@
-<html><head>
-    <meta name='viewport' content='initial-scale=0.5'>
-    <link href='synrc.css' type='text/css' rel='stylesheet'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <title>Login</title></head><body>
+<html>
 
-    <table cellpadding='20' align='center'>
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700&amp;subset=cyrillic" rel="stylesheet">
+    <title>Login</title>
+    <style>
+        body {
+            background: #f7f7f7;
+            font-family: 'Lora', serif;
+        }
+
+        header {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        img {
+            width: 120px;
+            margin: 30px 30px 30px 0;
+            padding: 0;
+            display: inline-block; vertical-align: middle;
+        }
+
+        h1 {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+            font-size: 36px;
+            font-weight: 700;
+            color: #555; vertical-align: middle;
+        }
+
+        form {
+            max-width: 400px;
+            background: white;
+            color: #737373;
+            box-shadow: 0px 20px 100px 0px rgba(0, 0, 0, 0.3);
+            margin: 40px auto;
+            padding-top: 10px;
+            position: relative;
+        }
+
+        p {
+            padding: 10px 20px;
+            margin: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 20px;
+        }
+
+        input {
+            width: 100%;
+            display: block;
+            border: none;
+            font-family: inherit;
+            color: inherit;
+            font-size: 22px;
+            line-height: 1.4;
+            border-bottom: 1px solid #e5c48e;
+        }
+
+        input:focus {
+            outline: none;
+            border-bottom: 1px solid #f6ce8e;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            color: white;
+            background: #e5c48e;
+            font-weight: bold;
+            font-family: inherit;
+            font-size: 30px;
+            line-height: 1;
+            margin-top: 20px;
+            padding: 10px 0;
+            border: none;
+        }
+
+        button:focus {
+            outline: none;
+            background: #f6ce8e;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <img src="S.svg">
+        <h1>N2O 4.6 MQTT</h1>
+    </header>
+    <form>
+        <h2></h2>
+        <p><label for="user">Choose any name:</label>
+            <input type="text" id="user" autofocus></p>
+        <p><label for="pass"> Enter a new or existing live feed:</label>
+            <input type="text" id="pass"></p>
+        <button id="loginButton">JOIN</button>
+    </form>
+    <!--<ul id="history">
+        <li>
+
+        </li>
+    </ul>-->
+    <!--<table cellpadding='20' align='center'>
             <tr><td valign='top' align='center' height='230' width='300'>
-                <img src='S.svg' border='0' height='200' style='margin-top:0px;'><br>
+               <br>
                 </td>
                 <td colspan='2' width='700' valign='top'>
                 <h1><b>N2O Review over MQTT</b></h1>
@@ -29,14 +133,17 @@
                 </td>
                 </td>
             </tr>
-        </table>
-        <script>var transition = {pid: '', port:'8000'};</script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"></script>
-        <script src='/n2o/utf8.js'></script>
-        <script src='/n2o/bert.js'></script>
-        <script src='/n2o/n2o.js'></script>
-        <script src='/n2o/ftp.js'></script>
-        <script src='/n2o/nitrogen.js'></script>
-        <script src='/n2o/mq.js'></script>
-    </body>
+        </table>-->
+    <script>
+        var transition = { pid: '', port: '8000' };
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"></script>
+    <script src='/n2o/utf8.js'></script>
+    <script src='/n2o/bert.js'></script>
+    <script src='/n2o/n2o.js'></script>
+    <script src='/n2o/ftp.js'></script>
+    <script src='/n2o/nitrogen.js'></script>
+    <script src='/n2o/mq.js'></script>
+</body>
+
 </html>
