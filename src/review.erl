@@ -5,12 +5,13 @@
 -include_lib("kvs/include/user.hrl").
 
 main(A)    -> mad:main(A).
-start()    -> start(normal,[]).
+start()    -> application:start(kvs), start(normal,[]).
 start(_,_) -> supervisor:start_link({local,review},review,[]).
 stop(_)    -> ok.
 init([])   -> application:set_env(n2o,session,n2o), 
+              application:set_env(n2o,pickler,n2o_secret), 
               application:set_env(kvs,dba,store_mnesia), 
-              application:set_env(schema,[kvs_user, kvs_acl, kvs_feed, kvs_subscription ]), 
+              application:set_env(kvs,schema,[kvs_user, kvs_acl, kvs_feed, kvs_subscription ]),
               kvs:join(),
               lager:set_loglevel(lager_console_backend, warning),
               {ok, {{one_for_one, 5, 10}, [spec()]}}.

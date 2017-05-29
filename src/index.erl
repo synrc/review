@@ -33,11 +33,7 @@ event(chat) ->
 
 event(#client{data={User,Message}}) ->
      nitro:wire(#jq{target=message,method=[focus,select]}),
-     HTML = nitro:to_list(Message),
-     DTL = #dtl{file="message",
-                app=review,
-                bindings=[{user,User},{color,"gray"},{message,HTML}]},
-     nitro:insert_top(history, nitro:jse(nitro:render(DTL)));
+     nitro:insert_top(history, nitro:jse(message_view("gray",User,Message)));
 
 event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     io:format("FTP Delivered ~p~n",[Data]),
@@ -50,3 +46,7 @@ event(logout) -> nitro:redirect("login.htm");
 event(Event)  -> io:format("Event: ~p", [Event]).
 
 main() -> [].
+
+message_view(Color,User,Message) -> 
+   iolist_to_binary(["<table width=500 cellpadding=20 cellspacing=3><tr><td bgcolor=",Color,
+       " style='color:white;'><b>",User,"</b>: ",Message,"</td></tr></table>"]).
