@@ -1,35 +1,40 @@
 <html>
-    <head>
-        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-        <link href='synrc.css' type='text/css' rel='stylesheet'>
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-        <title>Chat</title>
-    </head>
-    <body>
-        <table cellpadding='20' align='center' width="100%">
-            <tr>
-                <td valign='top' width=250>
-                    <h1><b id='heading'>Roster</b></h1>
-                    <br><a href="login.htm"><img src='S.svg' border='0' height='200' style='margin-top:0px;'></a><br>
-                    <h2>Unique Feed<br><button id='logout'></button></h2>
-                </td>
-                <td colspan='2' valign='top' height='550' bgcolor='#eeeeee'>
-                    <p>Just type what you think about this:</p>
-                    <textarea id=message style='margin-left:5px; width:100%; font-size:16pt;'
-                      value='' rows='5' autofocus></textarea>
-                    <div id=upload></div>
-                    <button id=send></button>
-                    <div id=history></div>
-                </td>
-            </tr>
-        </table>
-        <script>var transition = {pid: '', port:'8000'};</script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"></script>
-        <script src='/n2o/utf8.js'></script>
-        <script src='/n2o/bert.js'></script>
-        <script src='/n2o/n2o.js'></script>
-        <script src='/n2o/ftp.js'></script>
-        <script src='/n2o/nitrogen.js'></script>
-        <script src='/n2o/mq.js'></script>
-    </body>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='synrc.css' type='text/css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700&amp;subset=cyrillic" rel="stylesheet">
+    <title>Chat</title>
+</head>
+
+<body>
+    <aside>
+        <a href="login.htm"><img src="S.svg"></a>
+        <h1 id=heading>N2O 4.6 MQTT</h1>
+        <button id=logout>Logout</button>
+    </aside>
+    <main>
+        <form>
+            <textarea id=message style='margin-left:5px; width:100%; font-size:16pt;' rows='5' 
+                      autofocus placeholder="Just type what you think about this"></textarea>
+            <div id=upload></div>
+            <button id=send></button>
+        </form>
+        <section id="history">
+        </section>
+    </main>
+    <script>
+        var transition = { pid: '', port: '8000' };
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"></script>
+    <script src='/n2o/utf8.js'></script>
+    <script src='/n2o/bert.js'></script>
+    <script src='/n2o/n2o.js'></script>
+    <script src='/n2o/ftp.js'></script>
+    <script src='/n2o/nitrogen.js'></script>
+    <script src='/n2o/mq.js'></script>
+</body>
+
 </html>

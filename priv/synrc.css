@@ -1,41 +1,176 @@
-A { font-size:18pt; }
-A:link { color: blue; }
-A:visited { color: darkblue; }
-A:hover { color: blue; }
-SUP { font-size:10pt; }
-html { zoom: 0.8; }
-BODY {   font-size:14pt; font-family: Calibri, Lucida Sans, "Lucida Grande"; }
-TD { font-size:18pt; margin: 0 auto; padding-right: 20px; }
-textarea { font-family: "Lucida Console", Monaco, monospace; padding: 10px; }
-input { font-size:28pt; width: 50%; margin:15px 15px 5px 5px; }
-button { font-size:20pt; margin-top:15px; padding: 10px; }
-H1 { color: blue; font-weight: bold; font-size:26pt; margin-top:20px; margin-bottom:10px; margin-right:6px; }
-H2 { color: darkblue; font-size:18pt; margin-top:20px; margin-bottom:10px; margin-right:6px; }
-H3 { font-size:14pt; margin-top:20px; margin-bottom:10px; margin-right:6px; } 
-P { font-size:18pt; margin-top: 0px; margin-bottom: 8px; }
-#frame { width: 700px; height: 1000px; border: 1px solid black; }
-.poem { font-size:14pt; margin-top: 0px; margin-bottom: 8px; white-space: pre;}
-LI { font-size:12pt; }
-pre { font-size:10pt; font-family: Calibri, Lucida Console; }
-.menu { font-size:12pt; font-family: Calibri, Lucida Sans Unicode; color: red; }
-.small_infoblock { font-family: Calibri, Lucida Sans Unicode; font-size:8pt; }
-.block  { background-color: #EEEEEE; padding-top:6;padding-bottom:10;padding-right:10;padding-left:10;}
-.threecol { float:left; }
-.left { float:left; }
-.hints { width:59px;float:left;margin-right:6px; }
-.main { width:843px;float:left;margin-right:26px; }
-.contents { width:270px;float:left; }
-.numbox { padding:10px 10px 10px 10px;background-color:black;color:white; }
-.feed { margin-top:20px; }
+        body {
+            background: #f7f7f7;
+            font-family: 'Lora', serif;
+        }
 
-code, div.lstlisting { font-size:14pt; margin: 20px 20px 20px 0px;
-                        padding: 0px 20px 20px 20px; font-family: monospace;
-                        white-space: pre; background-color: white; display: inline-block;
-                         border-left:60px solid #afafaf; }
-code, div.lstlisting .keyword              { font-weight: bold }
-code, div.lstlisting .string, code .regexp { color: green }
-code, div.lstlisting .class { color: darkblue }
-code, div.lstlisting .record { color: purple }
-code, div.lstlisting .special { color: royalblue }
-code, div.lstlisting .number               { color: pink }
-code, div.lstlisting .comment              { color: grey }
+        header {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        img {
+            width: 140px;
+            margin: 30px 0 0;
+        }
+
+        h1 {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+            font-size: 36px;
+            font-weight: 700;
+            color: #555;
+            vertical-align: middle;
+        }
+
+        textarea {
+            flex: 0 1 100%;
+            border: none;
+            font-family: inherit;
+            color: inherit;
+            font-size: 20px;
+            line-height: 1.2;
+            padding: 5px 20px;
+        }
+
+         ::-webkit-input-placeholder {
+            color: #dedede;
+        }
+
+
+        ::-moz-placeholder {
+            color: #dedede;
+        }
+
+        ::-ms-input-placeholder {
+            color: #dedede;
+        }
+
+
+        textarea:focus {
+            outline: none;
+        }
+
+        body {
+            text-align: center;
+        }
+
+        aside {
+            display: inline-block;
+            max-width: 200px;
+            vertical-align: top;
+            margin-right: 50px;
+        }
+
+        main {
+            text-align: left;
+            display: inline-block;
+            max-width: 600px;
+            vertical-align: top;
+        }
+
+        article {
+            font-size: 20px;
+            background: white;
+            margin: 30px 0;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.20);
+            position: relative;
+            padding: 20px 30px;
+        }
+
+        legend {
+            position: absolute;
+            font-weight: bold;
+            left: -30px;
+            top: -15px;
+            padding: 5px 10px;
+            background: white;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.20);
+        }
+
+        legend::after {
+            content: ': ';
+        }
+
+        img {
+            width: 120px;
+            margin: 30px 30px 30px 0;
+            padding: 0;
+            display: inline-block; vertical-align: middle;
+        }
+
+        h1 {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+            font-size: 36px;
+            font-weight: 700;
+            color: #555; vertical-align: middle;
+        }
+
+        p {
+            padding: 10px 20px;
+            margin: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 20px;
+        }
+
+        input {
+            width: 100%;
+            display: block;
+            border: none;
+            font-family: inherit;
+            color: inherit;
+            font-size: 22px;
+            line-height: 1.4;
+            border-bottom: 1px solid #e5c48e;
+        }
+
+        input:focus {
+            outline: none;
+            border-bottom: 1px solid #f6ce8e;
+        }
+
+        button {
+            padding: 5px 20px;
+            font-size: 24px;
+            color: white;
+            background: #e5c48e;
+            font-weight: bold;
+            font-family: inherit;
+            line-height: 1;
+            border: none;
+            text-transform: uppercase;
+        }
+
+        button:focus {
+            outline: none;
+            background: #f6ce8e;
+        }
+
+        form {
+            background: white;
+            color: #737373;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.20);
+            margin: 40px 0 70px;
+            padding-top: 10px;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .form {
+            max-width: 400px;
+            background: white;
+            color: #737373;
+            box-shadow: 0px 20px 100px 0px rgba(0, 0, 0, 0.3);
+            margin: 40px auto;
+            padding-top: 10px;
+            position: relative;
+        }
+
+     .blue { background-color:#4990E2; color:white; }

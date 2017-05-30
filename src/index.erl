@@ -10,8 +10,8 @@ event(init) ->
     Room = n2o:cache(room),
     nitro:update(logout,  #button { id=logout,  body="Logout "  ++ n2o:user(),       postback=logout }),
     nitro:update(send,    #button { id=send,    body="Chat",       source=[message], postback=chat, 
-                                    style="background-color:#4990E2;color:white;"   }),
-    nitro:update(heading, #b      { id=heading, body="Review: " ++ Room}),
+                                    class=blue   }),
+    nitro:update(heading, #h1     { id=heading, body="Room: "++Room}),
     nitro:update(upload,  #upload { id=upload   }),
     nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
     [N] = binary_to_list(Node),
@@ -19,11 +19,11 @@ event(init) ->
     io:format("Topic: ~tp~n",[Topic]),
 
     % Block Async
-    % n2o:send_reply(ClientId, 2, Topic, term_to_binary(#client{id=Room,data=list}));
+    n2o:send_reply(ClientId, 2, Topic, term_to_binary(#client{id=Room,data=list})),
 
     % True Async
-    [ n2o:send_reply(ClientId, 2, Topic, term_to_binary(#client{data={E#entry.from,E#entry.media}}))
-      || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ],
+    % [ n2o:send_reply(ClientId, 2, Topic, term_to_binary(#client{data={E#entry.from,E#entry.media}}))
+    %  || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ],
 
     nitro:wire(#jq{target=message,method=[focus,select]});
 
@@ -67,6 +67,7 @@ event(Event)  -> io:format("Event: ~p", [Event]).
 main() -> [].
 
 message_view(Color,User,Message) ->
-   iolist_to_binary(["<table width='100%' cellpadding=20 cellspacing=3><tr><td bgcolor=",Color,
-       " style='color:white;'><b>",User,"</b>: ",Message,"</td></tr></table>"]).
+%   iolist_to_binary(["<table width='100%' cellpadding=20 cellspacing=3><tr><td bgcolor=",Color,
+%       " style='color:white;'><b>",User,"</b>: ",Message,"</td></tr></table>"]).
+   iolist_to_binary(["<article><legend>",User,"</legend>",Message,"</article>"]).
 

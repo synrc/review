@@ -7,7 +7,7 @@
 event(init) ->
     nitro:wire("nodes="++nitro:to_list(length(n2o:ring()))++";"),
     nitro:update(loginButton,
-          #button { id=loginButton, body="Login",
+          #button { id=loginButton, body="login", class=blue,
                     postback=login,source=[user,pass]});
 
 event(login) ->
