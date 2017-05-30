@@ -12,7 +12,7 @@ h1        { display: inline-block; margin: 0; padding: 0;
             vertical-align: middle; }
 
 textarea:focus { outline: none; }
-textarea {  flex: 0 1 100%;
+textarea {  flex: 0 0 100%;
             border: none;
             font-family: inherit;
             color: inherit;
