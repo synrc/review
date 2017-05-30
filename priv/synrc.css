@@ -3,10 +3,10 @@ body      { background: #f7f7f7; font-family: Palatino, "Palatino Linotype",
 
 header, footer { text-align: center; vertical-align: middle; }
 
-img       { width: 140px; margin: 30px 30px 0; padding: 0;
-            display: inline-block; vertical-align: middle;}
+img       { width: 140px; margin: 30px 0 9px 0; padding: 0;
+            display: inline-block; vertical-align: middle; text-align: center; }
 
-h1        { display: inline-block; margin: 0; padding: 0;
+h1        { display: inline-block; margin: 0 30px -25px; padding: 0;
             font-size: 40px;
             font-weight: 700;
             color: #555;
