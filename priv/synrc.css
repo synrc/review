@@ -44,6 +44,7 @@ article {   font-size: 20px;
             position: relative;
             padding: 20px 30px; }
 
+legend:empty {display: none}
 legend::after { content: ': '; }
 legend {    position: absolute;
             font-weight: bold;
