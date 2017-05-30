@@ -1,6 +1,6 @@
-body      { background: #f7f7f7; font-family: 'Lora', serif; text-align: center; }
+body      { background: #f7f7f7; font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;, serif; text-align: center; }
 
-header    { text-align: center; vertical-align: middle; }
+header, footer    { text-align: center; vertical-align: middle; }
 
 img       { width: 140px; margin: 30px 30px 0; padding: 0;
             display: inline-block; vertical-align: middle;}
@@ -12,13 +12,13 @@ h1        { display: inline-block; margin: 0; padding: 0;
             vertical-align: middle; }
 
 textarea:focus { outline: none; }
-textarea {  flex: 0 0 100%;
+textarea {  flex: 0 1 100%;
             border: none;
             font-family: inherit;
             color: inherit;
             font-size: 20px;
             line-height: 1.2;
-            padding: 5px 20px; }
+            padding: 10px 20px; }
 
 ::-webkit-input-placeholder { color: #dedede; }
 ::-moz-placeholder { color: #dedede; }
@@ -31,13 +31,13 @@ aside {     display: inline-block;
 
 main {      text-align: left;
             display: inline-block;
-            max-width: 600px;
+            max-width: 700px;
             vertical-align: top; }
 
 article {   font-size: 20px;
             background: white;
-            margin: 30px 0;
-            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.20);
+            margin: 10px 0;
+            box-shadow: 5px 5px 220px rgba(0, 0, 0, 0.05);
             position: relative;
             padding: 20px 30px; }
 
@@ -48,14 +48,13 @@ legend {    position: absolute;
             top: -15px;
             padding: 5px 10px;
             background: white;
-            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.20); }
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05); }
 
 p { padding: 10px 20px; margin: 0; }
 
 label { display: block; font-size: 20px; }
 
-input:focus { outline: none;
-              border-bottom: 1px solid #f6ce8e; }
+input:focus { outline: none; border-bottom: 1px solid #f6ce8e; }
 input { width: 100%; display: block;
         border: none; font-family: inherit;
         color: inherit; font-size: 22px;
@@ -63,7 +62,7 @@ input { width: 100%; display: block;
         border-bottom: 1px solid #e5c48e; }
 
 button:focus { outline: none; background: #f6ce8e; }
-button { padding: 5px 20px;
+button { padding: 15px 20px 10px 20px; margin: 0;
          font-size: 24px;
          color: white;
          background: #e5c48e;
@@ -75,20 +74,13 @@ button { padding: 5px 20px;
 
 form {  background: white;
         color: #737373;
-        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.20);
+        box-shadow: 20px 20px 220px rgba(0, 0, 0, 0.2);
         margin: 40px 0 70px;
         padding-top: 10px;
+        display: block;
+        width: 600px;
         position: relative;
-        display: flex;
         flex-wrap: wrap;
         justify-content: space-between; }
-
-.form { max-width: 400px;
-        background: white;
-        color: #737373;
-        box-shadow: 0px 20px 100px 0px rgba(0, 0, 0, 0.3);
-        margin: 40px auto;
-        padding-top: 10px;
-        position: relative; }
 
 .blue { background-color:#4990E2; color:white; }
