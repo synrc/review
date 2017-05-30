@@ -11,7 +11,7 @@ event(init) ->
     nitro:update(logout,  #button { id=logout,  body="Logout "  ++ n2o:user(),       postback=logout }),
     nitro:update(send,    #button { id=send,    body="Chat",       source=[message], postback=chat, 
                                     class=blue   }),
-    nitro:update(heading, #h1     { id=heading, body="Room: "++Room}),
+    nitro:update(heading, #h2     { id=heading, body=Room}),
     nitro:update(upload,  #upload { id=upload   }),
     nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
     [N] = binary_to_list(Node),

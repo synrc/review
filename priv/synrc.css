@@ -1,6 +1,7 @@
-body      { background: #f7f7f7; font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;, serif; text-align: center; }
+body      { background: #f7f7f7; font-family: Palatino, "Palatino Linotype",
+            "Palatino LT STD", "Book Antiqua", Georgia, serif;, serif; text-align: center; }
 
-header, footer    { text-align: center; vertical-align: middle; }
+header, footer { text-align: center; vertical-align: middle; }
 
 img       { width: 140px; margin: 30px 30px 0; padding: 0;
             display: inline-block; vertical-align: middle;}
@@ -10,6 +11,8 @@ h1        { display: inline-block; margin: 0; padding: 0;
             font-weight: 700;
             color: #555;
             vertical-align: middle; }
+
+h2 { text-transform: uppercase; }
 
 textarea:focus { outline: none; }
 textarea {  flex: 0 1 100%;
