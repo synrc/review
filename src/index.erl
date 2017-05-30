@@ -46,13 +46,14 @@ event(chat) ->
     event(#client{data={User,Message}}),
     Actions = iolist_to_binary(n2o_nitro:render_actions(n2o:actions())),
     M = term_to_binary({io,Actions,<<>>}),
+    io:format("Actions: ~p~n",[Actions]),
 
     n2o:send_reply(ClientId, 2, iolist_to_binary([<<"room/">>,Room]), M);
 
 % proto of UI update
 
 event(#client{data={User,Message}}) ->
-     nitro:insert_top(history, nitro:jse(message_view("gray",User,Message)));
+     nitro:insert_top(history, nitro:jse(message_view(User,Message)));
 
 event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     io:format("FTP Delivered ~p~n",[Data]),
@@ -66,8 +67,6 @@ event(Event)  -> io:format("Event: ~p", [Event]).
 
 main() -> [].
 
-message_view(Color,User,Message) ->
-%   iolist_to_binary(["<table width='100%' cellpadding=20 cellspacing=3><tr><td bgcolor=",Color,
-%       " style='color:white;'><b>",User,"</b>: ",Message,"</td></tr></table>"]).
+message_view(User,Message) ->
    iolist_to_binary(["<article><legend>",User,"</legend>",Message,"</article>"]).
 
