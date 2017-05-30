@@ -1,90 +1,193 @@
-body      { background: #f7f7f7; font-family: Palatino, "Palatino Linotype",
-            "Palatino LT STD", "Book Antiqua", Georgia, serif;, serif; text-align: center; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-header, footer { text-align: center; vertical-align: middle; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: #737373;
+    background: url('back.jpg') center / cover;
+    margin: 0;
+}
 
-img       { width: 140px; margin: 30px 0 9px 0; padding: 0;
-            display: inline-block; vertical-align: middle; text-align: center; }
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    color: white;
+    background: #4990E2;
+    font-weight: bold;
+    font-family: inherit;
+    line-height: 1;
+    border: none;
+    text-transform: uppercase;
+    border-radius: 4px;
+    box-shadow: 0px 10px 15px -5px rgba(100, 100, 100, .35);
+}
 
-h1        { display: inline-block; margin: 0 30px -25px; padding: 0;
-            font-size: 40px;
-            font-weight: 700;
-            color: #555;
-            vertical-align: middle; }
+button:hover {
+    background: #1a84ff;
+}
 
-h2 { text-transform: uppercase; }
+button:focus {
+    outline: none;
+    background: #1f63b2;
+}
 
-textarea:focus { outline: none; }
-textarea {  flex: 0 1 100%;
-            border: none;
-            font-family: inherit;
-            color: inherit;
-            font-size: 20px;
-            line-height: 1.2;
-            padding: 10px 20px; }
+img {
+    width: 140px;
+    margin: auto;
+    padding: 0;
+    display: block;
+}
 
-::-webkit-input-placeholder { color: #dedede; }
-::-moz-placeholder { color: #dedede; }
-::-ms-input-placeholder { color: #dedede; }
+.login {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    align-items: center;
+}
 
-aside {     display: inline-block;
-            max-width: 200px;
-            vertical-align: top;
-            margin-right: 50px; }
+.login h1 {
+    color: #4990E2;
+    font-size: 34px;
+    margin: 30px 0;
+    text-shadow: 1px 2px 8px rgba(100, 100, 100, .3);
+}
 
-main {      text-align: left;
-            display: inline-block;
-            max-width: 600px;
-            vertical-align: top; }
+.login img {
+    margin-top: 20px;
+}
 
-article {   font-size: 20px;
-            background: white;
-            margin: 10px 0;
-            box-shadow: 5px 5px 220px rgba(0, 0, 0, 0.05);
-            position: relative;
-            padding: 20px 30px; }
+.login form {
+    width: 300px;
+    background: white;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-radius: 4px;
+    box-shadow: 0px 4px 40px rgba(100, 100, 100, .35);
+}
 
-legend:empty {display: none}
-legend::after { content: ': '; }
-legend {    position: absolute;
-            font-weight: bold;
-            left: -30px;
-            top: -15px;
-            padding: 5px 10px;
-            background: white;
-            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05); }
+.login label {
+    width: 100%;
+    display: block;
+    font-size: 18px;
+}
 
-p { padding: 10px 20px; margin: 0; }
+.login input {
+    width: 100%;
+    display: block;
+    border: none;
+    font-family: inherit;
+    color: inherit;
+    font-size: 19px;
+    line-height: 1.4;
+    border-bottom: 1px solid #4990E2;
+    margin-bottom: 20px;
+}
 
-label { display: block; font-size: 20px; }
+.login input:focus {
+    outline: none;
+}
 
-input:focus { outline: none; border-bottom: 1px solid #f6ce8e; }
-input { width: 100%; display: block;
-        border: none; font-family: inherit;
-        color: inherit; font-size: 22px;
-        line-height: 1.4;
-        border-bottom: 1px solid #e5c48e; }
+.login footer {
+    margin-top: auto;
+    margin-bottom: 30px;
+    font-size: 18px;
+    background: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    box-shadow: 0px 4px 40px rgba(100, 100, 100, .35);
+}
 
-button:focus { outline: none; background: #f6ce8e; }
-button { padding: 15px 20px 10px 20px; margin: 0;
-         font-size: 24px;
-         color: white;
-         background: #e5c48e;
-         font-weight: bold;
-         font-family: inherit;
-         line-height: 1;
-         border: none;
-         text-transform: uppercase; }
+.chat {
+    text-align: center;
+}
 
-form {  background: white;
-        color: #737373;
-        box-shadow: 20px 20px 220px rgba(0, 0, 0, 0.2);
-        margin: 40px 0 70px;
-        padding-top: 10px;
-        display: block;
-        width: 600px;
-        position: relative;
-        flex-wrap: wrap;
-        justify-content: space-between; }
+.chat header {
+    display: inline-block;
+    max-width: 200px;
+    vertical-align: top;
+    margin-right: 50px;
+    margin-top: 20px;
+}
 
-.blue { background-color:#4990E2; color:white; }
+.chat h1 {
+    color: #4990E2;
+    font-size: 28px;
+    margin: 20px 0;
+    text-shadow: 1px 2px 8px rgba(100, 100, 100, .3);
+}
+
+.chat main {
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    max-width: 600px;
+    margin: 40px 10px;
+}
+
+.chat form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0px 0 70px;
+}
+
+.chat textarea:focus {
+    outline: none;
+}
+
+.chat textarea {
+    width: 100% !important;
+    margin-bottom: 20px;
+    border: none;
+    font-family: inherit;
+    color: inherit;
+    font-size: 18px;
+    line-height: 1.2;
+    padding: 8px 16px;
+    border-radius: 4px;
+    box-shadow: 0px 4px 40px rgba(100, 100, 100, .35);
+}
+
+::-webkit-input-placeholder {
+    color: #ccc;
+}
+
+::-moz-placeholder {
+    color: #ccc;
+}
+
+::-ms-input-placeholder {
+    color: #ccc;
+}
+
+history {
+    display: block;
+}
+
+message {
+    display: block;
+    font-size: 18px;
+    background: white;
+    padding: 8px 16px;
+    margin: 15px 0;
+    border-radius: 4px;
+    box-shadow: 0px 4px 40px rgba(100, 100, 100, .35);
+}
+
+author {
+    display: inline;
+    font-weight: bold;
+}
+
+author:empty {
+    display: none;
+}
+
+author::after {
+    content: ': ';
+}
