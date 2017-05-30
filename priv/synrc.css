@@ -23,6 +23,7 @@ button {
     text-transform: uppercase;
     border-radius: 4px;
     box-shadow: 0px 10px 15px -5px rgba(100, 100, 100, .35);
+    margin: 10px;
 }
 
 button:hover {
@@ -114,10 +115,14 @@ img {
     margin-top: 20px;
 }
 
+.chat img {
+    margin-bottom: 20px;
+}
+
 .chat h1 {
     color: #4990E2;
     font-size: 28px;
-    margin: 20px 0;
+    margin: 10px 0;
     text-shadow: 1px 2px 8px rgba(100, 100, 100, .3);
 }
 
@@ -163,6 +168,10 @@ img {
 
 ::-ms-input-placeholder {
     color: #ccc;
+}
+
+.chat span>button {
+    margin-right: 15px;
 }
 
 history {
