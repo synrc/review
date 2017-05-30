@@ -1,32 +1,26 @@
 <html>
 
 <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href='synrc.css?v=102' type='text/css' rel='stylesheet'>
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,700&amp;subset=cyrillic" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='synrc.css?v=103' type='text/css' rel='stylesheet'>
     <title>Login</title>
 </head>
 
-<body>
+<body class="login">
     <header>
         <img src="S.svg?v=100">
         <h1>N2O 4.6 MQTT</h1>
     </header>
-    <main>
     <form>
-        <h2></h2>
-        <p><label for="user">Choose any name:</label>
-           <input type="text" id="user" autofocus></p>
-        <p><label for="pass"> Enter a new or existing channel:</label>
-           <input type="text" id="pass"></p>
-        <button id="loginButton">join</button>
+        <label for="user">Choose any name:</label>
+        <input type="text" id="user" autofocus>
+        <label for="pass">Enter a new or existing channel:</label>
+        <input type="text" id="pass">
+        <button id="loginButton">login</button>
     </form>
-    </main>
-    <footer>
-        <h3>Brought to you by @5HT</h3>
-    </footer>
+    <footer>Brought to you by @5HT</footer>
     <script src="//cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"></script>
     <script src='/n2o/utf8.js?v=100'></script>
     <script src='/n2o/bert.js?v=100'></script>

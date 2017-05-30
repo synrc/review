@@ -4,26 +4,25 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href='synrc.css?v=102' type='text/css' rel='stylesheet'>
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,700&amp;subset=cyrillic" rel="stylesheet">
+    <link href='synrc.css?v=103' type='text/css' rel='stylesheet'>
     <title>Chat</title>
 </head>
 
-<body>
-    <aside>
+<body class="chat">
+    <header>
         <a href="login.htm"><img src="S.svg?v=100"></a>
-        <h2 id=heading>room</h2>
-        <button id=logout>Logout</button>
-    </aside>
+        <h1 id=heading>room</h1>
+        <button id=logout>logout</button>
+    </header>
     <main>
         <form>
-            <textarea id=message style='width:550px; font-size:16pt;' rows='5'
-                      autofocus placeholder="Just type what you think about this"></textarea>
-            <div id=upload></div>
-            <button id=send></button>
+            <textarea id=message rows='4' autofocus placeholder="Just type what you think about this"></textarea>
+            <button id=upload>Browse</button>
+            <button id=send>chat</button>
         </form>
-        <section id="history">
-        </section>
+        <history id="history">
+        </history>
+
     </main>
     <script src="//cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"></script>
     <script src='/n2o/utf8.js?v=100'></script>
