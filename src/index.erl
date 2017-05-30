@@ -6,7 +6,7 @@
 
 event(init) ->
     nitro:wire("nodes="++nitro:to_list(length(n2o:ring()))++";"),
-    #cx{session=ClientId,node=Node} = get(context),
+    #cx{session=Token,params=Id,node=Node} = get(context),
     Room = n2o:cache(room),
     nitro:update(logout,  #button { id=logout,  body="Logout "  ++ n2o:user(),       postback=logout, class=blue }),
     nitro:update(send,    #button { id=send,    body="Chat",       source=[message], postback=chat, 
@@ -14,12 +14,11 @@ event(init) ->
     nitro:update(heading, #h2     { id=heading, body=Room}),
     nitro:update(upload,  #upload { id=upload   }),
     nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
-    [N] = binary_to_list(Node),
-    Topic = iolist_to_binary(["events/",nitro:to_list(N),"/index/anon/",ClientId]),
-    io:format("Topic: ~tp~n",[Topic]),
+    Topic = iolist_to_binary(["events/",Node,"/index/anon/",Id,"/",Token]),
+    io:format("Topic: ~tp~n",[{Node,Topic}]),
 
     % Block Async
-    n2o:send_reply(ClientId, 2, Topic, term_to_binary(#client{id=Room,data=list})),
+    n2o:send_reply(<<>>, 2, Topic, term_to_binary(#client{id=Room,data=list})),
 
     % True Async
     % [ n2o:send_reply(ClientId, 2, Topic, term_to_binary(#client{data={E#entry.from,E#entry.media}}))
@@ -27,12 +26,6 @@ event(init) ->
 
     nitro:wire(#jq{target=message,method=[focus,select]});
 
-% proto of roster message
-
-event(#client{id=Room,data=list}) ->
-    io:format("ROSTER~n"),
-    [ event(#client{data={E#entry.from,E#entry.media}})
-      || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ];
 
 event(chat) ->
     User    = n2o:user(),
@@ -43,7 +36,7 @@ event(chat) ->
     kvs:add(#entry{id=kvs:next_id("entry",1),
                    from=n2o:user(),feed_id={room,Room},media=Message}),
 
-    event(#client{data={User,Message}}),
+    nitro:insert_top(history, nitro:jse(message_view(User,Message))),
     Actions = iolist_to_binary(n2o_nitro:render_actions(n2o:actions())),
     M = term_to_binary({io,Actions,<<>>}),
     io:format("Actions: ~p~n",[Actions]),
@@ -52,8 +45,11 @@ event(chat) ->
 
 % proto of UI update
 
-event(#client{data={User,Message}}) ->
-     nitro:insert_top(history, nitro:jse(message_view(User,Message)));
+event(#client{id=Room,data=list}) ->
+    io:format("ROSTER: ~p~n",[Room]),
+    [ nitro:insert_top(history, nitro:jse(message_view(E#entry.from,E#entry.media)))
+      || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ],
+    io:format("Actions: ~p~n", [n2o:actions()]);
 
 event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     io:format("FTP Delivered ~p~n",[Data]),
