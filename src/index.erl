@@ -8,7 +8,7 @@ event(init) ->
     nitro:wire("nodes="++nitro:to_list(length(n2o:ring()))++";"),
     #cx{session=ClientId,node=Node} = get(context),
     Room = n2o:cache(room),
-    nitro:update(logout,  #button { id=logout,  body="Logout "  ++ n2o:user(),       postback=logout }),
+    nitro:update(logout,  #button { id=logout,  body="Logout "  ++ n2o:user(),       postback=logout, class=blue }),
     nitro:update(send,    #button { id=send,    body="Chat",       source=[message], postback=chat, 
                                     class=blue   }),
     nitro:update(heading, #h2     { id=heading, body=Room}),
