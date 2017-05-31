@@ -15,8 +15,8 @@ event(login) ->
     Room = nitro:to_list(n2o:q(pass)),
     n2o:user(User),
     io:format("User: ~p~n",[User]),
-    n2o:cache(room,Room),
-    nitro:redirect("index.htm?room="++Room);
+    n2o:session(room,Room),
+    nitro:redirect("/");
 
 event(_) -> [].
 main()   -> [].

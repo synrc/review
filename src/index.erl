@@ -7,7 +7,8 @@
 event(init) ->
     nitro:wire("nodes="++nitro:to_list(length(n2o:ring()))++";"),
     #cx{session=Token,params=Id,node=Node} = get(context),
-    Room = n2o:cache(room),
+    Room = n2o:session(room),
+    io:format("Room: ~p~n",[Room]),
     nitro:update(logout,  #button { id=logout,  body="Logout "  ++ n2o:user(),       postback=logout}),
     nitro:update(send,    #button { id=send,    body="Chat",       source=[message], postback=chat}),
     nitro:update(heading, #h2     { id=heading, body=Room}),
@@ -28,7 +29,7 @@ event(init) ->
 event(chat) ->
     User    = n2o:user(),
     Message = n2o:q(message),
-    Room    = n2o:cache(room),
+    Room    = n2o:session(room),
     #cx{session=ClientId} = get(context),
     io:format("Chat pressed: ~p\r~n",[{Room,ClientId,Message,User}]),
     kvs:add(#entry{id=kvs:next_id("entry",1),
@@ -56,7 +57,7 @@ event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     nitro:render(#link{href=iolist_to_binary(["/spa/",Sid,"/",nitro_conv:url_encode(Name)]),body=Name})),
     event(chat);
 
-event(logout) -> nitro:redirect("login.htm");
+event(logout) -> nitro:redirect("login");
 event(Event)  -> io:format("Event: ~p", [Event]).
 
 main() -> [].
