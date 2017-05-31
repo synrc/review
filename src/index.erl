@@ -14,7 +14,6 @@ event(init) ->
     nitro:update(upload,  #upload { id=upload   }),
     nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
     Topic = iolist_to_binary(["events/",Node,"/index/anon/",Id,"/",Token]),
-    io:format("Topic: ~tp~n",[{Node,Topic}]),
 
     % Block Async
     n2o:send_reply(<<>>, 2, Topic, term_to_binary(#client{id=Room,data=list})),
@@ -45,7 +44,7 @@ event(chat) ->
 % proto of UI update
 
 event(#client{id=Room,data=list}) ->
-    io:format("ROSTER: ~p~n",[Room]),
+%    io:format("ROSTER: ~p~n",[Room]),
     [ nitro:insert_top(history, nitro:jse(message_view(E#entry.from,E#entry.media)))
       || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ];
 %    io:format("Actions: ~p~n", [n2o:actions()]);
