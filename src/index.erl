@@ -55,8 +55,11 @@ event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     nitro:render(#link{href=iolist_to_binary(["/spa/",Sid,"/",nitro_conv:url_encode(Name)]),body=Name})),
     event(chat);
 
-event(logout) -> nitro:redirect(n2o:session(room));
+event(logout) -> nitro:redirect(fix(n2o:session(room)));
 event(Event)  -> io:format("Event: ~p", [Event]).
+
+fix([]) -> "login";
+fix(A) -> A.
 
 main() -> [].
 
