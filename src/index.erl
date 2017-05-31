@@ -45,10 +45,8 @@ event(chat) ->
 % proto of UI update
 
 event(#client{id=Room,data=list}) ->
-%    io:format("ROSTER: ~p~n",[Room]),
     [ nitro:insert_top(history, nitro:jse(message_view(E#entry.from,E#entry.media)))
       || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ];
-%    io:format("Actions: ~p~n", [n2o:actions()]);
 
 event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     io:format("FTP Delivered ~p~n",[Data]),
@@ -57,7 +55,7 @@ event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     nitro:render(#link{href=iolist_to_binary(["/spa/",Sid,"/",nitro_conv:url_encode(Name)]),body=Name})),
     event(chat);
 
-event(logout) -> nitro:redirect("login");
+event(logout) -> nitro:redirect(n2o:session(room));
 event(Event)  -> io:format("Event: ~p", [Event]).
 
 main() -> [].

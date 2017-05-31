@@ -31,6 +31,11 @@ points()   -> cowboy_router:compile([{'_', [
     { "/rest/:resource/:id", rest_cowboy, []} ]}]).
 
 fix(  "apps/review/priv")         -> <<"apps/review/priv/index.htm">>;
-fix(<<"apps/review/priv/login">>) -> <<"apps/review/priv/login.htm">>;
+fix(  "deps/n2o/priv")            -> <<"apps/review/priv/login.htm">>;
 fix(<<"apps/review/priv/index">>) -> <<"apps/review/priv/index.htm">>;
+fix(<<"apps/review/priv/login">>) -> <<"apps/review/priv/login.htm">>;
+fix(<<"apps/review/priv/S.svg",Link/binary>>=X) -> X;
+fix(<<"apps/review/priv/back.jpg",Link/binary>>=X) -> X;
+fix(<<"apps/review/priv/synrc.css",Link/binary>>=X) -> X;
+fix(<<"apps/review/priv/",Link/binary>>) -> io:format("xx: ~p~n",[Link]), <<"apps/review/priv/login.htm">>;
 fix(Path)                         -> nitro:to_binary(Path).
