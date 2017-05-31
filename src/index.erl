@@ -47,8 +47,8 @@ event(chat) ->
 event(#client{id=Room,data=list}) ->
     io:format("ROSTER: ~p~n",[Room]),
     [ nitro:insert_top(history, nitro:jse(message_view(E#entry.from,E#entry.media)))
-      || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ],
-    io:format("Actions: ~p~n", [n2o:actions()]);
+      || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ];
+%    io:format("Actions: ~p~n", [n2o:actions()]);
 
 event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     io:format("FTP Delivered ~p~n",[Data]),
