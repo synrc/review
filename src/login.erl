@@ -14,7 +14,6 @@ event(login) ->
     User = nitro:to_list(n2o:q(user)),
     Room = nitro:to_list(n2o:q(pass)),
     n2o:user(User),
-    io:format("User: ~p~n",[User]),
     n2o:session(room,Room),
     nitro:redirect("/");
 
