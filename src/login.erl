@@ -7,15 +7,15 @@
 event(init) ->
     nitro:wire("nodes="++nitro:to_list(length(n2o:ring()))++";"),
     nitro:update(loginButton,
-          #button { id=loginButton, body="Login",
+          #button { id=loginButton, body="login",
                     postback=login,source=[user,pass]});
 
 event(login) ->
     User = nitro:to_list(n2o:q(user)),
     Room = nitro:to_list(n2o:q(pass)),
     n2o:user(User),
-    n2o:cache(room,Room),
-    nitro:redirect("index.htm?room="++Room);
+    n2o:session(room,Room),
+    nitro:redirect("/");
 
 event(_) -> [].
 main()   -> [].

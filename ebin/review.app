@@ -5,4 +5,4 @@
               {applications,[kernel,stdlib,kvs]},
               {mod,{review,[]}},
               {env,[]},
-              {modules,[]}]}.
+              {modules,[config,index,login,review]}]}.
