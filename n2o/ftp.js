@@ -34,7 +34,7 @@ var ftp = {
         ftp.start();
     },
     send: function (item, data) {
-        ws.send(enc(tuple(atom('ftp'),
+        wsn.send(enc(tuple(atom('ftp'),
             bin(item.id),
             bin(item.sid),
             bin(item.name),
