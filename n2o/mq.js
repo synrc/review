@@ -29,22 +29,14 @@ var options = {
     onSuccess: function ()  { console.log("N2O Connected");
                             } };
 function token() { return localStorage.getItem("token")||''; };
-function set_token(t) { return localStorage.setItem("token", t); };
 function topic(prefix) { return prefix + "/" + rnd() + "/" + module + "/anon/" + clientId + "/" + token(); }
 function rnd() { return Math.floor((Math.random() * nodes)+1); }
-function arrayBufferToString(buffer){
-    var arr = new Uint8Array(buffer);
-    var str = String.fromCharCode.apply(String, arr);
-    if(/[\u0080-\uffff]/.test(str)){
-        throw new Error("this string seems to contain (still encoded) multibytes");
-    }
-    return str;
-}
 
   mqtt = new Paho.MQTT.Client(host, 8083, '');
   mqtt.onConnectionLost = function (o) { console.log("connection lost: " + o.errorMessage); };
   mqtt.onMessageArrived = function (m) {
-        if (undefined == clientId && m.payloadBytes.length == 0)
+
+  if (undefined == clientId && m.payloadBytes.length == 0)
         {
             words = m.destinationName.split("/");
             clientId = words[2];
@@ -55,29 +47,13 @@ function arrayBufferToString(buffer){
             m.payloadBytes.byteOffset + m.payloadBytes.length);
         try {
             erlang = dec(BERT);
-            if (erlang.v && erlang.v[0].v == "io" &&
-                erlang.v.length == 3 && typeof(erlang.v[2].v) == "object" &&
-                erlang.v[2].v.length == 2 && erlang.v[2].v[0].v == "Token")
-                {
-                    binToken = erlang.v[2].v[1].v;
-                    if (binToken.byteLength) {
-                        t = arrayBufferToString(binToken);
-                        set_token(t);
-                        console.log("set token: " + t);
-                }
-            }
-
-            erlang = dec(BERT);
-
             for (var i = 0; i < $bert.protos.length; i++) {
-                p = $bert.protos[i];
-                if (p.on(erlang, p.do).status == "ok")
-                    return;
-
+                p = $bert.protos[i]; if (p.on(erlang, p.do).status == "ok") return;
             }
         } catch (e) { console.log(e); }
         }
     };
-    console.log(module);
 
-  mqtt.connect(options);
+console.log(module);
+mqtt.connect(options);
+

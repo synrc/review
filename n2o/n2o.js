@@ -25,8 +25,10 @@ function N2O_start() {
 
 var $io = {}; $io.on = function onio(r, cb) {
     if (is(r, 3, 'io')) {
-        if (r.v[2].v != undefined && r.v[2].v[1] != undefined){
+        if (r.v[2].v != undefined && r.v[2].v[1] != undefined &&
+            r.v[2].v.length == 2 && r.v[2].v[0].v == "Token"){
           tok = String.fromCharCode.apply(null, new Uint8Array(r.v[2].v[1].v));
+          console.log(tok);
           localStorage.setItem("token",tok);
         }
         try { eval(utf8_dec(r.v[1].v)); if (typeof cb == 'function') cb(r); return { status: "ok" }; }
@@ -40,12 +42,9 @@ var $file = {}; $file.on = function onfile(r, cb) {
     } else return { status: '' };
 }
 
-var $token = {}; $token.on = function ontoken(r, cb) { if (is(r,2,'Token')) {
-    if (typeof cb == 'function') cb(r); return { status: "ok" }; } else return { status: '' }; }
-
 // BERT Formatter
 
-var $bert = {}; $bert.protos = [$io, $file, $token]; $bert.on = function onbert(evt, cb) {
+var $bert = {}; $bert.protos = [$io, $file]; $bert.on = function onbert(evt, cb) {
     if (Blob.prototype.isPrototypeOf(evt.data) && (evt.data.length > 0 || evt.data.size > 0)) {
         var r = new FileReader();
         r.addEventListener("loadend", function () {

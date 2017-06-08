@@ -10,8 +10,8 @@ var ftp = {
             status: 'init',
             autostart: ftp.autostart || false,
             name: ftp.filename || file.name,
-            sid: ftp.sid || co(session),
-            meta: ftp.meta || bin(''),
+            sid: ftp.sid || token(),
+            meta: ftp.meta || bin(clientId),
             offset: ftp.offset || 0,
             block: 1,
             total: file.size,
@@ -67,7 +67,6 @@ $file.do = function (rsp) {
         case 'init':
             console.log("init block="+block);
             if(block == 1) return;
-            
             var item = ftp.item(utf8_dec(rsp.v[1].v));
             item.offset = offset;
             item.block = block;
