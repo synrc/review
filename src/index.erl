@@ -58,7 +58,8 @@ event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
 event(logout) ->  nitro:redirect(fix(n2o:session(room))), n2o:session(room,[]);
 event(Event)  -> io:format("Event: ~p", [Event]).
 
-fix([]) -> "login.htm";
+fix([]) -> "/login.htm";
+fix("/") -> "/index.htm";
 fix(A) -> A.
 
 main() -> [].
