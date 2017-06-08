@@ -12,6 +12,7 @@ init([])   -> application:set_env(n2o,session,n2o),
               application:set_env(n2o,pickler,n2o_secret),
               application:set_env(n2o,fixpath,{review,fix2}),
               application:set_env(kvs,dba,store_mnesia),
+              lager:set_loglevel(lager_console_backend, error),
               kvs:join(),
               {ok, {{one_for_one, 5, 10}, [spec()]}}.
 spec()     -> ranch:child_spec(http, 100, ranch_tcp, port(), cowboy_protocol, env()).
@@ -24,6 +25,7 @@ port()     -> [ { port, application:get_env(n2o,port,8000)  } ].
 points()   -> cowboy_router:compile([{'_', [
     { "/web/[...]",          nitro_static,  static2()},
     { "/n2o/[...]",          nitro_static,  n2o()},
+    { "/ws/[...]",           n2o_stream,  []},
     { "/[...]",              nitro_static,  static()},
     { "/rest/:resource",     rest_cowboy, []},
     { "/rest/:resource/:id", rest_cowboy, []} ]}]).

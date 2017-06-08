@@ -14,6 +14,13 @@ function qn(name) { return document.createElement(name); }
 function is(x, num, name) { return x.t == 106 ? false : (x.v.length === num && x.v[0].v === name); }
 function co(name) { match = document.cookie.match(new RegExp(name + '=([^;]+)')); return match ? match[1] : undefined; }
 
+function N2O_start() {
+    wsn = new bullet(protocol + host + (port==""?"":":"+port) + "/ws" + querystring);
+    wsn.onmessage = function (evt) { // formatters loop
+    for (var i=0;i<protos.length;i++) { p = protos[i]; if (p.on(evt, p.do).status == "ok") return; } };
+    wsn.onopen = function() { if (!active) { console.log('Connect'); active=true; } };
+    wsn.onclose = function() { active = false; console.log('Disconnect'); }; next(); }
+
 /// N2O Protocols
 
 var $io = {}; $io.on = function onio(r, cb) {
@@ -43,8 +50,8 @@ var $bert = {}; $bert.protos = [$io, $file, $token]; $bert.on = function onbert(
         var r = new FileReader();
         r.addEventListener("loadend", function () {
             try {
-                erlang = dec(r.result);
 //                if (debug) console.log(JSON.stringify(erlang));
+                erlang = dec(r.result);
                 if (typeof cb == 'function') cb(erlang);
                 for (var i = 0; i < $bert.protos.length; i++) {
                     p = $bert.protos[i]; if (p.on(erlang, p.do).status == "ok") return;
