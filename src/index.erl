@@ -52,7 +52,7 @@ event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
     io:format("FTP Delivered ~p~n",[Data]),
     Name = hd(lists:reverse(string:tokens(nitro:to_list(Filename),"/"))),
     erlang:put(message,
-    nitro:render(#link{href=iolist_to_binary(["http://ns.synrc.com:8000/n2o/",
+    nitro:render(#link{href=iolist_to_binary(["http://127.0.0.1:8000/n2o/",
                        nitro_conv:url_encode(Name)]),body=Name})),
     event(chat);
 
