@@ -14,7 +14,7 @@ event(init) ->
     nitro:update(heading, #h2     { id=heading, body=Room}),
     nitro:update(upload,  #upload { id=upload   }),
     nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
-    Topic = iolist_to_binary(["events/",Node,"/index/anon/",Id,"/",Token]),
+    Topic = iolist_to_binary(["events/1/",Node,"/index/anon/",Id,"/",Token]),
 
     % Block Async
     n2o:send_reply(<<>>, 2, Topic, term_to_binary(#client{id=Room,data=list})),
