@@ -3,7 +3,7 @@ defmodule FS.Mixfile do
 
   def project do
     [app: :review,
-     version: "3.4",
+     version: "3.4.0",
      description: "N2O Sample Application",
      deps: deps,
      docs: [],
@@ -19,6 +19,12 @@ defmodule FS.Mixfile do
    end
 
   defp deps do
+     [{:kvs, ">= 0.0.0"}]
+     [{:n2o, ">= 0.0.0"}]
+     [{:active, "== 1.9"}]
+     [{:cowboy, "== 1.0.1"}]
+     [{:nitro, ">= 0.0.0"}]
+     [{:mad, ">= 0.0.0"}]
      [{:ex_doc, ">= 0.0.0", only: :dev}]
   end
 end
