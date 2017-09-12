@@ -11,7 +11,7 @@ var ftp = {
             autostart: ftp.autostart || false,
             name: ftp.filename || file.name,
             sid: ftp.sid || token(),
-            meta: ftp.meta || bin(clientId),
+            meta: ftp.meta || bin(client()),
             offset: ftp.offset || 0,
             block: 1,
             total: file.size,
