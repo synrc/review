@@ -17,7 +17,7 @@ low-latency IoT applications.
 Run
 ---
 
-```erlang
+```sh
 $ brew install erlang
 $ curl -fsSL https://raw.github.com/synrc/mad/master/mad > mad \
             && chmod +x mad \
