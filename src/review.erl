@@ -24,6 +24,7 @@ port()     -> [ { port, application:get_env(n2o,port,8000)  } ].
 points()   -> cowboy_router:compile([{'_', [
     { "/web/[...]",          nitro_static,  static2()},
     { "/n2o/[...]",          nitro_static,  n2o()},
+    { "/ws/[...]",           n2o_stream,  []}, % FOR FTP
     { "/[...]",              nitro_static,  static()},
     { "/rest/:resource",     rest_cowboy, []},
     { "/rest/:resource/:id", rest_cowboy, []} ]}]).
