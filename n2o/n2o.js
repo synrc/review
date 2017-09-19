@@ -26,18 +26,11 @@ function N2O_start() {
 var $io = {}; $io.on = function onio(r, cb) {
     if (is(r, 3, 'io')) {
         if (r.v[2].v != undefined && r.v[2].v[1] != undefined &&
-            r.v[2].v.length == 2 && r.v[2].v[0].v == "Token") {
+            r.v[2].v.length == 2 && (r.v[2].v[0].v == "Token" || r.v[2].v[0].v == "Auth")) {
             tok = String.fromCharCode.apply(null, new Uint8Array(r.v[2].v[1].v));
             console.log("Token: " + tok.substr(0,20));
             localStorage.setItem("token",tok);
         }
-        if (r.v[2].v != undefined && r.v[2].v[1] != undefined &&
-                   r.v[2].v.length == 2 && r.v[2].v[0].v == "Auth") {
-            tok = String.fromCharCode.apply(null, new Uint8Array(r.v[2].v[1].v));
-            console.log("Auth: " + tok.substr(0,20));
-            localStorage.setItem("token",tok);
-            return {status: "ok" };
-        } else
         try { eval(utf8_dec(r.v[1].v)); if (typeof cb == 'function') cb(r); return { status: "ok" }; }
         catch (e) { console.log(r);
                     return { status: '' }; }
