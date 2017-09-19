@@ -9,7 +9,7 @@ main(A)    -> mad:main(A).
 start()    -> start(normal,[]).
 start(_,_) -> supervisor:start_link({local,review},review,[]).
 stop(_)    -> ok.
-init([])   -> application:set_env(n2o,session,n2o),
+init([])   -> application:set_env(n2o,session,n2o_session),
               application:set_env(n2o,pickler,n2o_secret),
               application:set_env(n2o,fixpath,{review,fix2}),
               application:set_env(kvs,dba,store_mnesia),
