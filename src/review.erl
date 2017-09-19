@@ -3,6 +3,7 @@
 -behaviour(application).
 -export([init/1, start/2, stop/1, main/1, fix/1, fix2/1]).
 -include_lib("kvs/include/user.hrl").
+-compile(export_all).
 
 main(A)    -> mad:main(A).
 start()    -> start(normal,[]).
@@ -18,12 +19,13 @@ spec()     -> ranch:child_spec(http, 100, ranch_tcp, port(), cowboy_protocol, en
 env()      -> [ { env, [ { dispatch, points() } ] } ].
 static()   ->   { dir, "deps/review", mime() }.
 static2()   ->  { dir, "deps/spa/priv", mime() }.
-n2o()      ->   { dir, "deps/n2o/priv",    mime() }.
+n2o(Dir)      ->   { dir, Dir,    mime() }.
 mime()     -> [ { mimetypes, cow_mimetypes, all   } ].
 port()     -> [ { port, application:get_env(n2o,port,8000)  } ].
 points()   -> cowboy_router:compile([{'_', [
     { "/web/[...]",          nitro_static,  static2()},
-    { "/n2o/[...]",          nitro_static,  n2o()},
+    { "/ftp/[...]",          nitro_static,  n2o(application:get_env(roster,upload,"deps/n2o/priv")) },
+    { "/n2o/[...]",          nitro_static,  n2o("deps/n2o/priv") },
     { "/ws/[...]",           n2o_stream,  []}, % FOR FTP
     { "/[...]",              nitro_static,  static()},
     { "/rest/:resource",     rest_cowboy, []},
