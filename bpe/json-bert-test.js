@@ -1,3 +1,14 @@
+
+function checkTour() {
+    ws.send(enc(encode({tup:'create',proc:"tour",docs:[]})));
+    ws.send(enc(encode({tup:'complete',id:21})));
+    ws.send(enc(encode({tup:'amend',id:21,docs:[{tup:'join_application',id:2111,name:'maxim',  data:''}]})));
+    ws.send(enc(encode({tup:'amend',id:21,docs:[{tup:'join_application',id:2222,name:'vlad',   data:''}]})));
+    ws.send(enc(encode({tup:'amend',id:21,docs:[{tup:'join_application',id:3333,name:'doxtop', data:''}]})));
+    ws.send(enc(encode({tup:'proc',id:21})));
+    ws.send(enc(encode({tup:'hist',id:21})));
+}
+
 function check() {
     var res = true;
     //@TODO: MORE TEST DATA

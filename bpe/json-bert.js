@@ -35,6 +35,138 @@ function encode(x) {
     } else return scalar(x);
 }
 
+function enccur(d) {
+    var tup = atom('cur');
+    var id = 'id' in d && d.id ? encode(d.id) : nil();
+    var top = 'top' in d && d.top ? number(d.top) : nil();
+    var bot = 'bot' in d && d.bot ? number(d.bot) : nil();
+    var dir = 'dir' in d && d.dir ? encode(d.dir) : nil();
+    var reader = 'reader' in d && d.reader ? encode(d.reader) : nil();
+    var writer = 'writer' in d && d.writer ? encode(d.writer) : nil();
+    var args = []; if ('args' in d && d.args)
+	 { d.args.forEach(function(x){
+	args.push(encode(x))});
+	 args={t:108,v:args}; } else { args = nil() };
+    return tuple(tup,id,top,bot,dir,reader,writer,args); }
+
+function lencur() { return 8; }
+function deccur(d) {
+    var r={}; r.tup = 'cur';
+    r.id = d && d.v[1] ? decode(d.v[1].v) : undefined;
+    r.top = d && d.v[2] ? d.v[2].v : undefined;
+    r.bot = d && d.v[3] ? d.v[3].v : undefined;
+    r.dir = d && d.v[4] ? decode(d.v[4]) : undefined;
+    r.reader = d && d.v[5] ? decode(d.v[5].v) : undefined;
+    r.writer = d && d.v[6] ? decode(d.v[6].v) : undefined;
+    r.args = [];
+	 (d && d.v[7] && d.v[7].v) ?
+	 d.v[7].v.forEach(function(x){r.args.push(decode(x))}) :
+	 r.args = undefined;
+    return clean(r); }
+
+function enciter(d) {
+    var tup = atom('iter');
+    var id = 'id' in d && d.id ? encode(d.id) : nil();
+    var next = 'next' in d && d.next ? number(d.next) : nil();
+    var prev = 'prev' in d && d.prev ? number(d.prev) : nil();
+    return tuple(tup,id,next,prev); }
+
+function leniter() { return 4; }
+function deciter(d) {
+    var r={}; r.tup = 'iter';
+    r.id = d && d.v[1] ? decode(d.v[1].v) : undefined;
+    r.next = d && d.v[2] ? d.v[2].v : undefined;
+    r.prev = d && d.v[3] ? d.v[3].v : undefined;
+    return clean(r); }
+
+function enccontainer(d) {
+    var tup = atom('container');
+    var id = 'id' in d && d.id ? number(d.id) : nil();
+    var top = 'top' in d && d.top ? number(d.top) : nil();
+    var rear = 'rear' in d && d.rear ? number(d.rear) : nil();
+    var count = 'count' in d && d.count ? number(d.count) : nil();
+    return tuple(tup,id,top,rear,count); }
+
+function lencontainer() { return 5; }
+function deccontainer(d) {
+    var r={}; r.tup = 'container';
+    r.id = d && d.v[1] ? d.v[1].v : undefined;
+    r.top = d && d.v[2] ? d.v[2].v : undefined;
+    r.rear = d && d.v[3] ? d.v[3].v : undefined;
+    r.count = d && d.v[4] ? d.v[4].v : undefined;
+    return clean(r); }
+
+function enciterator(d) {
+    var tup = atom('iterator');
+    var id = 'id' in d && d.id ? number(d.id) : nil();
+    var container = 'container' in d && d.container ? atom(d.container) : nil();
+    var feed_id = 'feed_id' in d && d.feed_id ? encode(d.feed_id) : nil();
+    var prev = 'prev' in d && d.prev ? number(d.prev) : nil();
+    var next = 'next' in d && d.next ? number(d.next) : nil();
+    var feeds = []; if ('feeds' in d && d.feeds)
+	 { d.feeds.forEach(function(x){
+	feeds.push(encode(x))});
+	 feeds={t:108,v:feeds}; } else { feeds = nil() };
+    return tuple(tup,id,container,feed_id,prev,next,feeds); }
+
+function leniterator() { return 7; }
+function deciterator(d) {
+    var r={}; r.tup = 'iterator';
+    r.id = d && d.v[1] ? d.v[1].v : undefined;
+    r.container = d && d.v[2] ? d.v[2].v : undefined;
+    r.feed_id = d && d.v[3] ? decode(d.v[3].v) : undefined;
+    r.prev = d && d.v[4] ? d.v[4].v : undefined;
+    r.next = d && d.v[5] ? d.v[5].v : undefined;
+    r.feeds = [];
+	 (d && d.v[6] && d.v[6].v) ?
+	 d.v[6].v.forEach(function(x){r.feeds.push(decode(x))}) :
+	 r.feeds = undefined;
+    return clean(r); }
+
+function enclog(d) {
+    var tup = atom('log');
+    var id = 'id' in d && d.id ? number(d.id) : nil();
+    var top = 'top' in d && d.top ? number(d.top) : nil();
+    var rear = 'rear' in d && d.rear ? number(d.rear) : nil();
+    var count = 'count' in d && d.count ? number(d.count) : nil();
+    return tuple(tup,id,top,rear,count); }
+
+function lenlog() { return 5; }
+function declog(d) {
+    var r={}; r.tup = 'log';
+    r.id = d && d.v[1] ? d.v[1].v : undefined;
+    r.top = d && d.v[2] ? d.v[2].v : undefined;
+    r.rear = d && d.v[3] ? d.v[3].v : undefined;
+    r.count = d && d.v[4] ? d.v[4].v : undefined;
+    return clean(r); }
+
+function encoperation(d) {
+    var tup = atom('operation');
+    var id = 'id' in d && d.id ? number(d.id) : nil();
+    var container = 'container' in d && d.container ? atom(d.container) : nil();
+    var feed_id = 'feed_id' in d && d.feed_id ? encode(d.feed_id) : nil();
+    var prev = 'prev' in d && d.prev ? number(d.prev) : nil();
+    var next = 'next' in d && d.next ? number(d.next) : nil();
+    var feeds = []; if ('feeds' in d && d.feeds)
+	 { d.feeds.forEach(function(x){
+	feeds.push(encode(x))});
+	 feeds={t:108,v:feeds}; } else { feeds = nil() };
+    return tuple(tup,id,container,feed_id,prev,next,feeds); }
+
+function lenoperation() { return 7; }
+function decoperation(d) {
+    var r={}; r.tup = 'operation';
+    r.id = d && d.v[1] ? d.v[1].v : undefined;
+    r.container = d && d.v[2] ? d.v[2].v : undefined;
+    r.feed_id = d && d.v[3] ? decode(d.v[3].v) : undefined;
+    r.prev = d && d.v[4] ? d.v[4].v : undefined;
+    r.next = d && d.v[5] ? d.v[5].v : undefined;
+    r.feeds = [];
+	 (d && d.v[6] && d.v[6].v) ?
+	 d.v[6].v.forEach(function(x){r.feeds.push(decode(x))}) :
+	 r.feeds = undefined;
+    return clean(r); }
+
 function encmax_tour(d) {
     var tup = atom('max_tour');
     var count = 'count' in d && d.count ? number(d.count) : nil();
@@ -46,6 +178,21 @@ function decmax_tour(d) {
     var r={}; r.tup = 'max_tour';
     r.count = d && d.v[1] ? d.v[1].v : undefined;
     r.joined = d && d.v[2] ? d.v[2].v : undefined;
+    return clean(r); }
+
+function encjoin_application(d) {
+    var tup = atom('join_application');
+    var id = 'id' in d && d.id ? number(d.id) : nil();
+    var name = 'name' in d && d.name ? bin(d.name) : nil();
+    var data = 'data' in d && d.data ? encode(d.data) : nil();
+    return tuple(tup,id,name,data); }
+
+function lenjoin_application() { return 4; }
+function decjoin_application(d) {
+    var r={}; r.tup = 'join_application';
+    r.id = d && d.v[1] ? d.v[1].v : undefined;
+    r.name = d && d.v[2] ? utf8_dec(d.v[2].v) : undefined;
+    r.data = d && d.v[3] ? decode(d.v[3].v) : undefined;
     return clean(r); }
 
 function enctour_list(d) {
@@ -65,18 +212,381 @@ function dectour_list(d) {
 	 r.users = undefined;
     return clean(r); }
 
-function encjoin_application(d) {
-    var tup = atom('join_application');
-    var id = 'id' in d && d.id ? number(d.id) : nil();
+function enctask(d) {
+    var tup = atom('task');
     var name = 'name' in d && d.name ? atom(d.name) : nil();
-    var data = 'data' in d && d.data ? encode(d.data) : nil();
-    return tuple(tup,id,name,data); }
+    var roles = []; if ('roles' in d && d.roles)
+	 { d.roles.forEach(function(x){
+	roles.push(encode(x))});
+	 roles={t:108,v:roles}; } else { roles = nil() };
+    var module = 'module' in d && d.module ? atom(d.module) : nil();
+    return tuple(tup,name,roles,module); }
 
-function lenjoin_application() { return 4; }
-function decjoin_application(d) {
-    var r={}; r.tup = 'join_application';
+function lentask() { return 4; }
+function dectask(d) {
+    var r={}; r.tup = 'task';
+    r.name = d && d.v[1] ? d.v[1].v : undefined;
+    r.roles = [];
+	 (d && d.v[2] && d.v[2].v) ?
+	 d.v[2].v.forEach(function(x){r.roles.push(decode(x))}) :
+	 r.roles = undefined;
+    r.module = d && d.v[3] ? d.v[3].v : undefined;
+    return clean(r); }
+
+function encuserTask(d) {
+    var tup = atom('userTask');
+    var name = 'name' in d && d.name ? atom(d.name) : nil();
+    var roles = []; if ('roles' in d && d.roles)
+	 { d.roles.forEach(function(x){
+	roles.push(encode(x))});
+	 roles={t:108,v:roles}; } else { roles = nil() };
+    var module = 'module' in d && d.module ? atom(d.module) : nil();
+    return tuple(tup,name,roles,module); }
+
+function lenuserTask() { return 4; }
+function decuserTask(d) {
+    var r={}; r.tup = 'userTask';
+    r.name = d && d.v[1] ? d.v[1].v : undefined;
+    r.roles = [];
+	 (d && d.v[2] && d.v[2].v) ?
+	 d.v[2].v.forEach(function(x){r.roles.push(decode(x))}) :
+	 r.roles = undefined;
+    r.module = d && d.v[3] ? d.v[3].v : undefined;
+    return clean(r); }
+
+function encserviceTask(d) {
+    var tup = atom('serviceTask');
+    var name = 'name' in d && d.name ? atom(d.name) : nil();
+    var roles = []; if ('roles' in d && d.roles)
+	 { d.roles.forEach(function(x){
+	roles.push(encode(x))});
+	 roles={t:108,v:roles}; } else { roles = nil() };
+    var module = 'module' in d && d.module ? atom(d.module) : nil();
+    return tuple(tup,name,roles,module); }
+
+function lenserviceTask() { return 4; }
+function decserviceTask(d) {
+    var r={}; r.tup = 'serviceTask';
+    r.name = d && d.v[1] ? d.v[1].v : undefined;
+    r.roles = [];
+	 (d && d.v[2] && d.v[2].v) ?
+	 d.v[2].v.forEach(function(x){r.roles.push(decode(x))}) :
+	 r.roles = undefined;
+    r.module = d && d.v[3] ? d.v[3].v : undefined;
+    return clean(r); }
+
+function encreceiveTask(d) {
+    var tup = atom('receiveTask');
+    var name = 'name' in d && d.name ? atom(d.name) : nil();
+    var roles = []; if ('roles' in d && d.roles)
+	 { d.roles.forEach(function(x){
+	roles.push(encode(x))});
+	 roles={t:108,v:roles}; } else { roles = nil() };
+    var module = 'module' in d && d.module ? atom(d.module) : nil();
+    return tuple(tup,name,roles,module); }
+
+function lenreceiveTask() { return 4; }
+function decreceiveTask(d) {
+    var r={}; r.tup = 'receiveTask';
+    r.name = d && d.v[1] ? d.v[1].v : undefined;
+    r.roles = [];
+	 (d && d.v[2] && d.v[2].v) ?
+	 d.v[2].v.forEach(function(x){r.roles.push(decode(x))}) :
+	 r.roles = undefined;
+    r.module = d && d.v[3] ? d.v[3].v : undefined;
+    return clean(r); }
+
+function encmessageEvent(d) {
+    var tup = atom('messageEvent');
+    var name = 'name' in d && d.name ? atom(d.name) : nil();
+    var payload = 'payload' in d && d.payload ? encode(d.payload) : nil();
+    var timeout = 'timeout' in d && d.timeout ? encode(d.timeout) : nil();
+    return tuple(tup,name,payload,timeout); }
+
+function lenmessageEvent() { return 4; }
+function decmessageEvent(d) {
+    var r={}; r.tup = 'messageEvent';
+    r.name = d && d.v[1] ? d.v[1].v : undefined;
+    r.payload = d && d.v[2] ? decode(d.v[2].v) : undefined;
+    r.timeout = d && d.v[3] ? decode(d.v[3].v) : undefined;
+    return clean(r); }
+
+function encboundaryEvent(d) {
+    var tup = atom('boundaryEvent');
+    var name = 'name' in d && d.name ? atom(d.name) : nil();
+    var payload = 'payload' in d && d.payload ? encode(d.payload) : nil();
+    var timeout = 'timeout' in d && d.timeout ? encode(d.timeout) : nil();
+    var timeDate = 'timeDate' in d && d.timeDate ? encode(d.timeDate) : nil();
+    var timeDuration = 'timeDuration' in d && d.timeDuration ? encode(d.timeDuration) : nil();
+    var timeCycle = 'timeCycle' in d && d.timeCycle ? encode(d.timeCycle) : nil();
+    var module = 'module' in d && d.module ? atom(d.module) : nil();
+    return tuple(tup,name,payload,timeout,timeDate,timeDuration,timeCycle,module); }
+
+function lenboundaryEvent() { return 8; }
+function decboundaryEvent(d) {
+    var r={}; r.tup = 'boundaryEvent';
+    r.name = d && d.v[1] ? d.v[1].v : undefined;
+    r.payload = d && d.v[2] ? decode(d.v[2].v) : undefined;
+    r.timeout = d && d.v[3] ? decode(d.v[3].v) : undefined;
+    r.timeDate = d && d.v[4] ? decode(d.v[4].v) : undefined;
+    r.timeDuration = d && d.v[5] ? decode(d.v[5].v) : undefined;
+    r.timeCycle = d && d.v[6] ? decode(d.v[6].v) : undefined;
+    r.module = d && d.v[7] ? d.v[7].v : undefined;
+    return clean(r); }
+
+function enctimeoutEvent(d) {
+    var tup = atom('timeoutEvent');
+    var name = 'name' in d && d.name ? atom(d.name) : nil();
+    var payload = 'payload' in d && d.payload ? encode(d.payload) : nil();
+    var timeout = 'timeout' in d && d.timeout ? encode(d.timeout) : nil();
+    var timeDate = 'timeDate' in d && d.timeDate ? encode(d.timeDate) : nil();
+    var timeDuration = 'timeDuration' in d && d.timeDuration ? encode(d.timeDuration) : nil();
+    var timeCycle = 'timeCycle' in d && d.timeCycle ? encode(d.timeCycle) : nil();
+    var module = 'module' in d && d.module ? encode(d.module) : nil();
+    return tuple(tup,name,payload,timeout,timeDate,timeDuration,timeCycle,module); }
+
+function lentimeoutEvent() { return 8; }
+function dectimeoutEvent(d) {
+    var r={}; r.tup = 'timeoutEvent';
+    r.name = d && d.v[1] ? d.v[1].v : undefined;
+    r.payload = d && d.v[2] ? decode(d.v[2].v) : undefined;
+    r.timeout = d && d.v[3] ? decode(d.v[3].v) : undefined;
+    r.timeDate = d && d.v[4] ? decode(d.v[4].v) : undefined;
+    r.timeDuration = d && d.v[5] ? decode(d.v[5].v) : undefined;
+    r.timeCycle = d && d.v[6] ? decode(d.v[6].v) : undefined;
+    r.module = d && d.v[7] ? decode(d.v[7].v) : undefined;
+    return clean(r); }
+
+function encbeginEvent(d) {
+    var tup = atom('beginEvent');
+    var name = 'name' in d && d.name ? atom(d.name) : nil();
+    var module = 'module' in d && d.module ? atom(d.module) : nil();
+    return tuple(tup,name,module); }
+
+function lenbeginEvent() { return 3; }
+function decbeginEvent(d) {
+    var r={}; r.tup = 'beginEvent';
+    r.name = d && d.v[1] ? d.v[1].v : undefined;
+    r.module = d && d.v[2] ? d.v[2].v : undefined;
+    return clean(r); }
+
+function encendEvent(d) {
+    var tup = atom('endEvent');
+    var name = 'name' in d && d.name ? atom(d.name) : nil();
+    var module = 'module' in d && d.module ? atom(d.module) : nil();
+    return tuple(tup,name,module); }
+
+function lenendEvent() { return 3; }
+function decendEvent(d) {
+    var r={}; r.tup = 'endEvent';
+    r.name = d && d.v[1] ? d.v[1].v : undefined;
+    r.module = d && d.v[2] ? d.v[2].v : undefined;
+    return clean(r); }
+
+function encsequenceFlow(d) {
+    var tup = atom('sequenceFlow');
+    var source = 'source' in d && d.source ? atom(d.source) : nil();
+    var target = 'target' in d && d.target ? atom(d.target) : nil();
+    return tuple(tup,source,target); }
+
+function lensequenceFlow() { return 3; }
+function decsequenceFlow(d) {
+    var r={}; r.tup = 'sequenceFlow';
+    r.source = d && d.v[1] ? d.v[1].v : undefined;
+    r.target = d && d.v[2] ? d.v[2].v : undefined;
+    return clean(r); }
+
+function enchistory(d) {
+    var tup = atom('history');
+    var id = 'id' in d && d.id ? number(d.id) : nil();
+    var container = 'container' in d && d.container ? atom(d.container) : nil();
+    var feed_id = 'feed_id' in d && d.feed_id ? encode(d.feed_id) : nil();
+    var prev = 'prev' in d && d.prev ? number(d.prev) : nil();
+    var next = 'next' in d && d.next ? number(d.next) : nil();
+    var feeds = []; if ('feeds' in d && d.feeds)
+	 { d.feeds.forEach(function(x){
+	feeds.push(encode(x))});
+	 feeds={t:108,v:feeds}; } else { feeds = nil() };
+    var name = 'name' in d && d.name ? bin(d.name) : nil();
+    var task = 'task' in d && d.task ? atom(d.task) : nil();
+    var time = 'time' in d && d.time ? encode(d.time) : nil();
+    return tuple(tup,id,container,feed_id,prev,next,feeds,name,task,time); }
+
+function lenhistory() { return 10; }
+function dechistory(d) {
+    var r={}; r.tup = 'history';
     r.id = d && d.v[1] ? d.v[1].v : undefined;
-    r.name = d && d.v[2] ? d.v[2].v : undefined;
-    r.data = d && d.v[3] ? decode(d.v[3].v) : undefined;
+    r.container = d && d.v[2] ? d.v[2].v : undefined;
+    r.feed_id = d && d.v[3] ? decode(d.v[3].v) : undefined;
+    r.prev = d && d.v[4] ? d.v[4].v : undefined;
+    r.next = d && d.v[5] ? d.v[5].v : undefined;
+    r.feeds = [];
+	 (d && d.v[6] && d.v[6].v) ?
+	 d.v[6].v.forEach(function(x){r.feeds.push(decode(x))}) :
+	 r.feeds = undefined;
+    r.name = d && d.v[7] ? utf8_dec(d.v[7].v) : undefined;
+    r.task = d && d.v[8] ? d.v[8].v : undefined;
+    r.time = d && d.v[9] ? decode(d.v[9].v) : undefined;
+    return clean(r); }
+
+function encprocess(d) {
+    var tup = atom('process');
+    var id = 'id' in d && d.id ? number(d.id) : nil();
+    var container = 'container' in d && d.container ? atom(d.container) : nil();
+    var feed_id = 'feed_id' in d && d.feed_id ? encode(d.feed_id) : nil();
+    var prev = 'prev' in d && d.prev ? number(d.prev) : nil();
+    var next = 'next' in d && d.next ? number(d.next) : nil();
+    var feeds = []; if ('feeds' in d && d.feeds)
+	 { d.feeds.forEach(function(x){
+	feeds.push(encode(x))});
+	 feeds={t:108,v:feeds}; } else { feeds = nil() };
+    var name = 'name' in d && d.name ? bin(d.name) : nil();
+    var roles = []; if ('roles' in d && d.roles)
+	 { d.roles.forEach(function(x){
+	roles.push(encode(x))});
+	 roles={t:108,v:roles}; } else { roles = nil() };
+    var tasks = []; if ('tasks' in d && d.tasks)
+	 { d.tasks.forEach(function(x){
+	tasks.push(encode(x))});
+	 tasks={t:108,v:tasks}; } else { tasks = nil() };
+    var events = []; if ('events' in d && d.events)
+	 { d.events.forEach(function(x){
+	events.push(encode(x))});
+	 events={t:108,v:events}; } else { events = nil() };
+    var history = 'history' in d && d.history ? encode(d.history) : nil();
+    var flows = []; if ('flows' in d && d.flows)
+	 { d.flows.forEach(function(x){
+	flows.push(encode(x))});
+	 flows={t:108,v:flows}; } else { flows = nil() };
+    var rules = 'rules' in d && d.rules ? encode(d.rules) : nil();
+    var docs = []; if ('docs' in d && d.docs)
+	 { d.docs.forEach(function(x){
+	docs.push(encode(x))});
+	 docs={t:108,v:docs}; } else { docs = nil() };
+    var options = 'options' in d && d.options ? encode(d.options) : nil();
+    var task = 'task' in d && d.task ? atom(d.task) : nil();
+    var timer = 'timer' in d && d.timer ? encode(d.timer) : nil();
+    var notifications = 'notifications' in d && d.notifications ? encode(d.notifications) : nil();
+    var result = 'result' in d && d.result ? encode(d.result) : nil();
+    var started = 'started' in d && d.started ? encode(d.started) : nil();
+    var beginEvent = 'beginEvent' in d && d.beginEvent ? atom(d.beginEvent) : nil();
+    var endEvent = 'endEvent' in d && d.endEvent ? atom(d.endEvent) : nil();
+    return tuple(tup,id,container,feed_id,prev,next,feeds,name,roles,tasks,events,
+	history,flows,rules,docs,options,task,timer,notifications,result,started,beginEvent,endEvent); }
+
+function lenprocess() { return 23; }
+function decprocess(d) {
+    var r={}; r.tup = 'process';
+    r.id = d && d.v[1] ? d.v[1].v : undefined;
+    r.container = d && d.v[2] ? d.v[2].v : undefined;
+    r.feed_id = d && d.v[3] ? decode(d.v[3].v) : undefined;
+    r.prev = d && d.v[4] ? d.v[4].v : undefined;
+    r.next = d && d.v[5] ? d.v[5].v : undefined;
+    r.feeds = [];
+	 (d && d.v[6] && d.v[6].v) ?
+	 d.v[6].v.forEach(function(x){r.feeds.push(decode(x))}) :
+	 r.feeds = undefined;
+    r.name = d && d.v[7] ? utf8_dec(d.v[7].v) : undefined;
+    r.roles = [];
+	 (d && d.v[8] && d.v[8].v) ?
+	 d.v[8].v.forEach(function(x){r.roles.push(decode(x))}) :
+	 r.roles = undefined;
+    r.tasks = [];
+	 (d && d.v[9] && d.v[9].v) ?
+	 d.v[9].v.forEach(function(x){r.tasks.push(decode(x))}) :
+	 r.tasks = undefined;
+    r.events = [];
+	 (d && d.v[10] && d.v[10].v) ?
+	 d.v[10].v.forEach(function(x){r.events.push(decode(x))}) :
+	 r.events = undefined;
+    r.history = d && d.v[11] ? decode(d.v[11]) : undefined;
+    r.flows = [];
+	 (d && d.v[12] && d.v[12].v) ?
+	 d.v[12].v.forEach(function(x){r.flows.push(decode(x))}) :
+	 r.flows = undefined;
+    r.rules = d && d.v[13] ? decode(d.v[13]) : undefined;
+    r.docs = [];
+	 (d && d.v[14] && d.v[14].v) ?
+	 d.v[14].v.forEach(function(x){r.docs.push(decode(x))}) :
+	 r.docs = undefined;
+    r.options = d && d.v[15] ? decode(d.v[15].v) : undefined;
+    r.task = d && d.v[16] ? d.v[16].v : undefined;
+    r.timer = d && d.v[17] ? decode(d.v[17].v) : undefined;
+    r.notifications = d && d.v[18] ? decode(d.v[18].v) : undefined;
+    r.result = d && d.v[19] ? decode(d.v[19].v) : undefined;
+    r.started = d && d.v[20] ? decode(d.v[20].v) : undefined;
+    r.beginEvent = d && d.v[21] ? d.v[21].v : undefined;
+    r.endEvent = d && d.v[22] ? d.v[22].v : undefined;
+    return clean(r); }
+
+function enccomplete(d) {
+    var tup = atom('complete');
+    var id = 'id' in d && d.id ? number(d.id) : nil();
+    return tuple(tup,id); }
+
+function lencomplete() { return 2; }
+function deccomplete(d) {
+    var r={}; r.tup = 'complete';
+    r.id = d && d.v[1] ? d.v[1].v : undefined;
+    return clean(r); }
+
+function encproc(d) {
+    var tup = atom('proc');
+    var id = 'id' in d && d.id ? number(d.id) : nil();
+    return tuple(tup,id); }
+
+function lenproc() { return 2; }
+function decproc(d) {
+    var r={}; r.tup = 'proc';
+    r.id = d && d.v[1] ? d.v[1].v : undefined;
+    return clean(r); }
+
+function enchist(d) {
+    var tup = atom('hist');
+    var id = 'id' in d && d.id ? number(d.id) : nil();
+    return tuple(tup,id); }
+
+function lenhist() { return 2; }
+function dechist(d) {
+    var r={}; r.tup = 'hist';
+    r.id = d && d.v[1] ? d.v[1].v : undefined;
+    return clean(r); }
+
+function enccreate(d) {
+    var tup = atom('create');
+    var proc = 'proc' in d && d.proc ? encode(d.proc) : nil();
+    var docs = []; if ('docs' in d && d.docs)
+	 { d.docs.forEach(function(x){
+	docs.push(encode(x))});
+	 docs={t:108,v:docs}; } else { docs = nil() };
+    return tuple(tup,proc,docs); }
+
+function lencreate() { return 3; }
+function deccreate(d) {
+    var r={}; r.tup = 'create';
+    r.proc = d && d.v[1] ? decode(d.v[1]) : undefined;
+    r.docs = [];
+	 (d && d.v[2] && d.v[2].v) ?
+	 d.v[2].v.forEach(function(x){r.docs.push(decode(x))}) :
+	 r.docs = undefined;
+    return clean(r); }
+
+function encamend(d) {
+    var tup = atom('amend');
+    var id = 'id' in d && d.id ? number(d.id) : nil();
+    var docs = []; if ('docs' in d && d.docs)
+	 { d.docs.forEach(function(x){
+	docs.push(encode(x))});
+	 docs={t:108,v:docs}; } else { docs = nil() };
+    return tuple(tup,id,docs); }
+
+function lenamend() { return 3; }
+function decamend(d) {
+    var r={}; r.tup = 'amend';
+    r.id = d && d.v[1] ? d.v[1].v : undefined;
+    r.docs = [];
+	 (d && d.v[2] && d.v[2].v) ?
+	 d.v[2].v.forEach(function(x){r.docs.push(decode(x))}) :
+	 r.docs = undefined;
     return clean(r); }
 
