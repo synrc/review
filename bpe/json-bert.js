@@ -11,7 +11,9 @@ function scalar(data)    {
 function nil() { return {t: 106, v: undefined}; };
 
 function decode(x) {
-    if (x.t == 108) {
+    if (x == undefined) {
+        return [];
+    } else if (x.t == 108) {
         var r = []; x.v.forEach(function(y) { r.push(decode(y)) }); return r;
     } else if (x.t == 109) {
         return utf8_dec(x.v);
@@ -215,10 +217,7 @@ function dectour_list(d) {
 function enctask(d) {
     var tup = atom('task');
     var name = 'name' in d && d.name ? atom(d.name) : nil();
-    var roles = []; if ('roles' in d && d.roles)
-	 { d.roles.forEach(function(x){
-	roles.push(encode(x))});
-	 roles={t:108,v:roles}; } else { roles = nil() };
+    var roles = 'roles' in d && d.roles ? bin(d.roles) : nil();
     var module = 'module' in d && d.module ? atom(d.module) : nil();
     return tuple(tup,name,roles,module); }
 
@@ -226,20 +225,14 @@ function lentask() { return 4; }
 function dectask(d) {
     var r={}; r.tup = 'task';
     r.name = d && d.v[1] ? d.v[1].v : undefined;
-    r.roles = [];
-	 (d && d.v[2] && d.v[2].v) ?
-	 d.v[2].v.forEach(function(x){r.roles.push(decode(x))}) :
-	 r.roles = undefined;
+    r.roles = d && d.v[2] ? utf8_dec(d.v[2].v) : undefined;
     r.module = d && d.v[3] ? d.v[3].v : undefined;
     return clean(r); }
 
 function encuserTask(d) {
     var tup = atom('userTask');
     var name = 'name' in d && d.name ? atom(d.name) : nil();
-    var roles = []; if ('roles' in d && d.roles)
-	 { d.roles.forEach(function(x){
-	roles.push(encode(x))});
-	 roles={t:108,v:roles}; } else { roles = nil() };
+    var roles = 'roles' in d && d.roles ? bin(d.roles) : nil();
     var module = 'module' in d && d.module ? atom(d.module) : nil();
     return tuple(tup,name,roles,module); }
 
@@ -247,20 +240,14 @@ function lenuserTask() { return 4; }
 function decuserTask(d) {
     var r={}; r.tup = 'userTask';
     r.name = d && d.v[1] ? d.v[1].v : undefined;
-    r.roles = [];
-	 (d && d.v[2] && d.v[2].v) ?
-	 d.v[2].v.forEach(function(x){r.roles.push(decode(x))}) :
-	 r.roles = undefined;
+    r.roles = d && d.v[2] ? utf8_dec(d.v[2].v) : undefined;
     r.module = d && d.v[3] ? d.v[3].v : undefined;
     return clean(r); }
 
 function encserviceTask(d) {
     var tup = atom('serviceTask');
     var name = 'name' in d && d.name ? atom(d.name) : nil();
-    var roles = []; if ('roles' in d && d.roles)
-	 { d.roles.forEach(function(x){
-	roles.push(encode(x))});
-	 roles={t:108,v:roles}; } else { roles = nil() };
+    var roles = 'roles' in d && d.roles ? bin(d.roles) : nil();
     var module = 'module' in d && d.module ? atom(d.module) : nil();
     return tuple(tup,name,roles,module); }
 
@@ -268,20 +255,14 @@ function lenserviceTask() { return 4; }
 function decserviceTask(d) {
     var r={}; r.tup = 'serviceTask';
     r.name = d && d.v[1] ? d.v[1].v : undefined;
-    r.roles = [];
-	 (d && d.v[2] && d.v[2].v) ?
-	 d.v[2].v.forEach(function(x){r.roles.push(decode(x))}) :
-	 r.roles = undefined;
+    r.roles = d && d.v[2] ? utf8_dec(d.v[2].v) : undefined;
     r.module = d && d.v[3] ? d.v[3].v : undefined;
     return clean(r); }
 
 function encreceiveTask(d) {
     var tup = atom('receiveTask');
     var name = 'name' in d && d.name ? atom(d.name) : nil();
-    var roles = []; if ('roles' in d && d.roles)
-	 { d.roles.forEach(function(x){
-	roles.push(encode(x))});
-	 roles={t:108,v:roles}; } else { roles = nil() };
+    var roles = 'roles' in d && d.roles ? bin(d.roles) : nil();
     var module = 'module' in d && d.module ? atom(d.module) : nil();
     return tuple(tup,name,roles,module); }
 
@@ -289,17 +270,14 @@ function lenreceiveTask() { return 4; }
 function decreceiveTask(d) {
     var r={}; r.tup = 'receiveTask';
     r.name = d && d.v[1] ? d.v[1].v : undefined;
-    r.roles = [];
-	 (d && d.v[2] && d.v[2].v) ?
-	 d.v[2].v.forEach(function(x){r.roles.push(decode(x))}) :
-	 r.roles = undefined;
+    r.roles = d && d.v[2] ? utf8_dec(d.v[2].v) : undefined;
     r.module = d && d.v[3] ? d.v[3].v : undefined;
     return clean(r); }
 
 function encmessageEvent(d) {
     var tup = atom('messageEvent');
     var name = 'name' in d && d.name ? atom(d.name) : nil();
-    var payload = 'payload' in d && d.payload ? encode(d.payload) : nil();
+    var payload = 'payload' in d && d.payload ? bin(d.payload) : nil();
     var timeout = 'timeout' in d && d.timeout ? encode(d.timeout) : nil();
     return tuple(tup,name,payload,timeout); }
 
@@ -307,18 +285,18 @@ function lenmessageEvent() { return 4; }
 function decmessageEvent(d) {
     var r={}; r.tup = 'messageEvent';
     r.name = d && d.v[1] ? d.v[1].v : undefined;
-    r.payload = d && d.v[2] ? decode(d.v[2].v) : undefined;
+    r.payload = d && d.v[2] ? utf8_dec(d.v[2].v) : undefined;
     r.timeout = d && d.v[3] ? decode(d.v[3].v) : undefined;
     return clean(r); }
 
 function encboundaryEvent(d) {
     var tup = atom('boundaryEvent');
     var name = 'name' in d && d.name ? atom(d.name) : nil();
-    var payload = 'payload' in d && d.payload ? encode(d.payload) : nil();
+    var payload = 'payload' in d && d.payload ? bin(d.payload) : nil();
     var timeout = 'timeout' in d && d.timeout ? encode(d.timeout) : nil();
-    var timeDate = 'timeDate' in d && d.timeDate ? encode(d.timeDate) : nil();
-    var timeDuration = 'timeDuration' in d && d.timeDuration ? encode(d.timeDuration) : nil();
-    var timeCycle = 'timeCycle' in d && d.timeCycle ? encode(d.timeCycle) : nil();
+    var timeDate = 'timeDate' in d && d.timeDate ? bin(d.timeDate) : nil();
+    var timeDuration = 'timeDuration' in d && d.timeDuration ? bin(d.timeDuration) : nil();
+    var timeCycle = 'timeCycle' in d && d.timeCycle ? bin(d.timeCycle) : nil();
     var module = 'module' in d && d.module ? atom(d.module) : nil();
     return tuple(tup,name,payload,timeout,timeDate,timeDuration,timeCycle,module); }
 
@@ -326,35 +304,35 @@ function lenboundaryEvent() { return 8; }
 function decboundaryEvent(d) {
     var r={}; r.tup = 'boundaryEvent';
     r.name = d && d.v[1] ? d.v[1].v : undefined;
-    r.payload = d && d.v[2] ? decode(d.v[2].v) : undefined;
+    r.payload = d && d.v[2] ? utf8_dec(d.v[2].v) : undefined;
     r.timeout = d && d.v[3] ? decode(d.v[3].v) : undefined;
-    r.timeDate = d && d.v[4] ? decode(d.v[4].v) : undefined;
-    r.timeDuration = d && d.v[5] ? decode(d.v[5].v) : undefined;
-    r.timeCycle = d && d.v[6] ? decode(d.v[6].v) : undefined;
+    r.timeDate = d && d.v[4] ? utf8_dec(d.v[4].v) : undefined;
+    r.timeDuration = d && d.v[5] ? utf8_dec(d.v[5].v) : undefined;
+    r.timeCycle = d && d.v[6] ? utf8_dec(d.v[6].v) : undefined;
     r.module = d && d.v[7] ? d.v[7].v : undefined;
     return clean(r); }
 
 function enctimeoutEvent(d) {
     var tup = atom('timeoutEvent');
     var name = 'name' in d && d.name ? atom(d.name) : nil();
-    var payload = 'payload' in d && d.payload ? encode(d.payload) : nil();
+    var payload = 'payload' in d && d.payload ? bin(d.payload) : nil();
     var timeout = 'timeout' in d && d.timeout ? encode(d.timeout) : nil();
-    var timeDate = 'timeDate' in d && d.timeDate ? encode(d.timeDate) : nil();
-    var timeDuration = 'timeDuration' in d && d.timeDuration ? encode(d.timeDuration) : nil();
-    var timeCycle = 'timeCycle' in d && d.timeCycle ? encode(d.timeCycle) : nil();
-    var module = 'module' in d && d.module ? encode(d.module) : nil();
+    var timeDate = 'timeDate' in d && d.timeDate ? bin(d.timeDate) : nil();
+    var timeDuration = 'timeDuration' in d && d.timeDuration ? bin(d.timeDuration) : nil();
+    var timeCycle = 'timeCycle' in d && d.timeCycle ? bin(d.timeCycle) : nil();
+    var module = 'module' in d && d.module ? atom(d.module) : nil();
     return tuple(tup,name,payload,timeout,timeDate,timeDuration,timeCycle,module); }
 
 function lentimeoutEvent() { return 8; }
 function dectimeoutEvent(d) {
     var r={}; r.tup = 'timeoutEvent';
     r.name = d && d.v[1] ? d.v[1].v : undefined;
-    r.payload = d && d.v[2] ? decode(d.v[2].v) : undefined;
+    r.payload = d && d.v[2] ? utf8_dec(d.v[2].v) : undefined;
     r.timeout = d && d.v[3] ? decode(d.v[3].v) : undefined;
-    r.timeDate = d && d.v[4] ? decode(d.v[4].v) : undefined;
-    r.timeDuration = d && d.v[5] ? decode(d.v[5].v) : undefined;
-    r.timeCycle = d && d.v[6] ? decode(d.v[6].v) : undefined;
-    r.module = d && d.v[7] ? decode(d.v[7].v) : undefined;
+    r.timeDate = d && d.v[4] ? utf8_dec(d.v[4].v) : undefined;
+    r.timeDuration = d && d.v[5] ? utf8_dec(d.v[5].v) : undefined;
+    r.timeCycle = d && d.v[6] ? utf8_dec(d.v[6].v) : undefined;
+    r.module = d && d.v[7] ? d.v[7].v : undefined;
     return clean(r); }
 
 function encbeginEvent(d) {
@@ -465,10 +443,10 @@ function encprocess(d) {
 	 docs={t:108,v:docs}; } else { docs = nil() };
     var options = 'options' in d && d.options ? encode(d.options) : nil();
     var task = 'task' in d && d.task ? atom(d.task) : nil();
-    var timer = 'timer' in d && d.timer ? encode(d.timer) : nil();
+    var timer = 'timer' in d && d.timer ? bin(d.timer) : nil();
     var notifications = 'notifications' in d && d.notifications ? encode(d.notifications) : nil();
-    var result = 'result' in d && d.result ? encode(d.result) : nil();
-    var started = 'started' in d && d.started ? encode(d.started) : nil();
+    var result = 'result' in d && d.result ? bin(d.result) : nil();
+    var started = 'started' in d && d.started ? bin(d.started) : nil();
     var beginEvent = 'beginEvent' in d && d.beginEvent ? atom(d.beginEvent) : nil();
     var endEvent = 'endEvent' in d && d.endEvent ? atom(d.endEvent) : nil();
     return tuple(tup,id,container,feed_id,prev,next,feeds,name,roles,tasks,events,
@@ -511,10 +489,10 @@ function decprocess(d) {
 	 r.docs = undefined;
     r.options = d && d.v[15] ? decode(d.v[15].v) : undefined;
     r.task = d && d.v[16] ? d.v[16].v : undefined;
-    r.timer = d && d.v[17] ? decode(d.v[17].v) : undefined;
+    r.timer = d && d.v[17] ? utf8_dec(d.v[17].v) : undefined;
     r.notifications = d && d.v[18] ? decode(d.v[18].v) : undefined;
-    r.result = d && d.v[19] ? decode(d.v[19].v) : undefined;
-    r.started = d && d.v[20] ? decode(d.v[20].v) : undefined;
+    r.result = d && d.v[19] ? utf8_dec(d.v[19].v) : undefined;
+    r.started = d && d.v[20] ? utf8_dec(d.v[20].v) : undefined;
     r.beginEvent = d && d.v[21] ? d.v[21].v : undefined;
     r.endEvent = d && d.v[22] ? d.v[22].v : undefined;
     return clean(r); }
