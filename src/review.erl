@@ -26,6 +26,7 @@ points()   -> cowboy_router:compile([{'_', [
     { "/web/[...]",          nitro_static,  static2()},
     { "/ftp/[...]",          nitro_static,  n2o(application:get_env(roster,upload,"deps/n2o/priv")) },
     { "/n2o/[...]",          nitro_static,  n2o("deps/n2o/priv") },
+    { "/bpe/[...]",          nitro_static,  n2o("deps/review/bpe") },
     { "/ws/[...]",           n2o_stream,  []}, % FOR FTP
     { "/[...]",              nitro_static,  static()},
     { "/rest/:resource",     rest_cowboy, []},
