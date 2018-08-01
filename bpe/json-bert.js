@@ -2,35 +2,6 @@ function clean(r)      { for(var k in r) if(!r[k]) delete r[k]; return r; }
 function check_len(x)  { try { return (eval('len'+utf8_dec(x.v[0].v))() == x.v.length) ? true : false }
                          catch (e) { return false; } }
 
-function MessageEncodeTest(){
-  var x = encMessage({
-            container: 'chain',
-            feed_id: { tup: 'p2p', from: "123_11", to: "3333_2" },
-            from: "123_11",
-            to: "3333_2",
-            created : 1532803688328,
-            files: [ {
-                    tup: 'Desc',
-                    id: "devKey_" + Date.now(),
-                    mime: "thumb",
-                    payload: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTEMrktUtror-Q8UOJ3vCuFpQfCHOMNGGmcLel60hRTrG-fzk5Sg",
-                    size: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTEMrktUtror-Q8UOJ3vCuFpQfCHOMNGGmcLel60hRTrG-fzk5Sg".length,
-                    filename: 'thumbnail.png', }],
-            status: "client"
-        });
-   console.log(x);
-   return toErlString(enc(x));
-}
-
-function toErlString(a){
- var data = "rp(binary_to_term(<<";
- for (var i = 0; i < a.length; i++){
-  data += a[i];
-     if (i + 1 !=a.length) data+= ",";
- }
-  return data += ">>)).";
-}
-
 function scalar(data)    {
     var res = undefined;
     switch (typeof data) {
@@ -42,6 +13,8 @@ function nil() { return {t: 106, v: undefined}; };
 function decode(x) {
     if (x == undefined) {
         return [];
+    } if (x % 1 === 0) {
+        return x;
     } else if (x.t == 108) {
         var r = []; x.v.forEach(function(y) { r.push(decode(y)) }); return r;
     } else if (x.t == 109) {
@@ -677,7 +650,7 @@ function decchain(d) {
 
 function encpush(d) {
     var tup = atom('push');
-    var model = 'model' in d && d.model ? bin(d.model) : nil();
+    var model = 'model' in d && d.model ? encode(d.model) : nil();
     var type = 'type' in d && d.type ? bin(d.type) : nil();
     var title = 'title' in d && d.title ? bin(d.title) : nil();
     var alert = 'alert' in d && d.alert ? bin(d.alert) : nil();
@@ -688,7 +661,7 @@ function encpush(d) {
 function lenpush() { return 7; }
 function decpush(d) {
     var r={}; r.tup = 'push';
-    r.model = d && d.v[1] ? utf8_dec(d.v[1].v) : undefined;
+    r.model = d && d.v[1] ? decode(d.v[1].v) : undefined;
     r.type = d && d.v[2] ? utf8_dec(d.v[2].v) : undefined;
     r.title = d && d.v[3] ? utf8_dec(d.v[3].v) : undefined;
     r.alert = d && d.v[4] ? utf8_dec(d.v[4].v) : undefined;
@@ -968,7 +941,7 @@ function encMessage(d) {
     var msg_id = 'msg_id' in d && d.msg_id ? bin(d.msg_id) : nil();
     var from = 'from' in d && d.from ? bin(d.from) : nil();
     var to = 'to' in d && d.to ? bin(d.to) : nil();
-    var created = 'created' in d && d.created ? encode(d.created) : nil();
+    var created = 'created' in d && d.created ? number(d.created) : nil();
     var files = []; if ('files' in d && d.files)
 	 { d.files.forEach(function(x){
 	files.push(encode(x))});
@@ -1005,7 +978,7 @@ function decMessage(d) {
     r.msg_id = d && d.v[6] ? utf8_dec(d.v[6].v) : undefined;
     r.from = d && d.v[7] ? utf8_dec(d.v[7].v) : undefined;
     r.to = d && d.v[8] ? utf8_dec(d.v[8].v) : undefined;
-    r.created = d && d.v[9] ? decode(d.v[9]) : undefined;
+    r.created = d && d.v[9] ? d.v[9].v : undefined;
     r.files = [];
 	 (d && d.v[10] && d.v[10].v) ?
 	 d.v[10].v.forEach(function(x){r.files.push(decode(x))}) :
@@ -1139,7 +1112,7 @@ function decRoom(d) {
 
 function encTag(d) {
     var tup = atom('Tag');
-    var roster_id = 'roster_id' in d && d.roster_id ? number(d.roster_id) : nil();
+    var roster_id = 'roster_id' in d && d.roster_id ? bin(d.roster_id) : nil();
     var name = 'name' in d && d.name ? bin(d.name) : nil();
     var color = 'color' in d && d.color ? bin(d.color) : nil();
     var status = 'status' in d && d.status ? atom(d.status) : nil();
@@ -1148,7 +1121,7 @@ function encTag(d) {
 function lenTag() { return 5; }
 function decTag(d) {
     var r={}; r.tup = 'Tag';
-    r.roster_id = d && d.v[1] ? d.v[1].v : undefined;
+    r.roster_id = d && d.v[1] ? utf8_dec(d.v[1].v) : undefined;
     r.name = d && d.v[2] ? utf8_dec(d.v[2].v) : undefined;
     r.color = d && d.v[3] ? utf8_dec(d.v[3].v) : undefined;
     r.status = d && d.v[4] ? decode(d.v[4]) : undefined;
@@ -1201,7 +1174,10 @@ function encContact(d) {
     var names = 'names' in d && d.names ? bin(d.names) : nil();
     var surnames = 'surnames' in d && d.surnames ? bin(d.surnames) : nil();
     var nick = 'nick' in d && d.nick ? bin(d.nick) : nil();
-    var reader = 'reader' in d && d.reader ? number(d.reader) : nil();
+    var reader = []; if ('reader' in d && d.reader)
+	 { d.reader.forEach(function(x){
+	reader.push(encode(x))});
+	 reader={t:108,v:reader}; } else { reader = nil() };
     var unread = 'unread' in d && d.unread ? number(d.unread) : nil();
     var last_msg = 'last_msg' in d && d.last_msg ? encode(d.last_msg) : nil();
     var update = 'update' in d && d.update ? number(d.update) : nil();
@@ -1227,7 +1203,10 @@ function decContact(d) {
     r.names = d && d.v[3] ? utf8_dec(d.v[3].v) : undefined;
     r.surnames = d && d.v[4] ? utf8_dec(d.v[4].v) : undefined;
     r.nick = d && d.v[5] ? utf8_dec(d.v[5].v) : undefined;
-    r.reader = d && d.v[6] ? d.v[6].v : undefined;
+    r.reader = [];
+	 (d && d.v[6] && d.v[6].v) ?
+	 d.v[6].v.forEach(function(x){r.reader.push(decode(x))}) :
+	 r.reader = undefined;
     r.unread = d && d.v[7] ? d.v[7].v : undefined;
     r.last_msg = d && d.v[8] ? decode(d.v[8]) : undefined;
     r.update = d && d.v[9] ? d.v[9].v : undefined;
@@ -1277,7 +1256,7 @@ function encAuth(d) {
 	 settings={t:108,v:settings}; } else { settings = nil() };
     var push = 'push' in d && d.push ? bin(d.push) : nil();
     var os = 'os' in d && d.os ? atom(d.os) : nil();
-    var created = 'created' in d && d.created ? encode(d.created) : nil();
+    var created = 'created' in d && d.created ? number(d.created) : nil();
     var last_online = 'last_online' in d && d.last_online ? number(d.last_online) : nil();
     return tuple(tup,client_id,dev_key,user_id,phone,token,type,sms_code,attempts,services,settings,
 	push,os,created,last_online); }
@@ -1303,7 +1282,7 @@ function decAuth(d) {
 	 r.settings = undefined;
     r.push = d && d.v[11] ? utf8_dec(d.v[11].v) : undefined;
     r.os = d && d.v[12] ? decode(d.v[12]) : undefined;
-    r.created = d && d.v[13] ? decode(d.v[13]) : undefined;
+    r.created = d && d.v[13] ? d.v[13].v : undefined;
     r.last_online = d && d.v[14] ? d.v[14].v : undefined;
     return clean(r); }
 
@@ -1764,53 +1743,31 @@ function decPushService(d) {
     r.payload = d && d.v[6] ? utf8_dec(d.v[6].v) : undefined;
     return clean(r); }
 
-function encmqtt_topic(d) {
-    var tup = atom('mqtt_topic');
-    var flags = []; if ('flags' in d && d.flags)
-	 { d.flags.forEach(function(x){
-	flags.push(encode(x))});
-	 flags={t:108,v:flags}; } else { flags = nil() };
-    return tuple(tup,flags); }
+function encPublishService(d) {
+    var tup = atom('PublishService');
+    var message = 'message' in d && d.message ? bin(d.message) : nil();
+    var topic = 'topic' in d && d.topic ? bin(d.topic) : nil();
+    var qos = 'qos' in d && d.qos ? number(d.qos) : nil();
+    return tuple(tup,message,topic,qos); }
 
-function lenmqtt_topic() { return 2; }
-function decmqtt_topic(d) {
-    var r={}; r.tup = 'mqtt_topic';
-    r.flags = [];
-	 (d && d.v[1] && d.v[1].v) ?
-	 d.v[1].v.forEach(function(x){r.flags.push(decode(x))}) :
-	 r.flags = undefined;
+function lenPublishService() { return 4; }
+function decPublishService(d) {
+    var r={}; r.tup = 'PublishService';
+    r.message = d && d.v[1] ? utf8_dec(d.v[1].v) : undefined;
+    r.topic = d && d.v[2] ? utf8_dec(d.v[2].v) : undefined;
+    r.qos = d && d.v[3] ? d.v[3].v : undefined;
     return clean(r); }
 
-function encmqtt_message(d) {
-    var tup = atom('mqtt_message');
-    var qos = 'qos' in d && d.qos ? encode(d.qos) : nil();
-    var flags = []; if ('flags' in d && d.flags)
-	 { d.flags.forEach(function(x){
-	flags.push(encode(x))});
-	 flags={t:108,v:flags}; } else { flags = nil() };
-    var retain = 'retain' in d && d.retain ? encode(d.retain) : nil();
-    var dup = 'dup' in d && d.dup ? encode(d.dup) : nil();
-    var sys = 'sys' in d && d.sys ? encode(d.sys) : nil();
-    var headers = []; if ('headers' in d && d.headers)
-	 { d.headers.forEach(function(x){
-	headers.push(encode(x))});
-	 headers={t:108,v:headers}; } else { headers = nil() };
-    return tuple(tup,qos,flags,retain,dup,sys,headers); }
+function encTest(d) {
+    var tup = atom('Test');
+    var type = 'type' in d && d.type ? atom(d.type) : nil();
+    var count = 'count' in d && d.count ? number(d.count) : nil();
+    return tuple(tup,type,count); }
 
-function lenmqtt_message() { return 7; }
-function decmqtt_message(d) {
-    var r={}; r.tup = 'mqtt_message';
-    r.qos = d && d.v[1] ? decode(d.v[1]) : undefined;
-    r.flags = [];
-	 (d && d.v[2] && d.v[2].v) ?
-	 d.v[2].v.forEach(function(x){r.flags.push(decode(x))}) :
-	 r.flags = undefined;
-    r.retain = d && d.v[3] ? decode(d.v[3]) : undefined;
-    r.dup = d && d.v[4] ? decode(d.v[4]) : undefined;
-    r.sys = d && d.v[5] ? decode(d.v[5]) : undefined;
-    r.headers = [];
-	 (d && d.v[6] && d.v[6].v) ?
-	 d.v[6].v.forEach(function(x){r.headers.push(decode(x))}) :
-	 r.headers = undefined;
+function lenTest() { return 3; }
+function decTest(d) {
+    var r={}; r.tup = 'Test';
+    r.type = d && d.v[1] ? decode(d.v[1]) : undefined;
+    r.count = d && d.v[2] ? d.v[2].v : undefined;
     return clean(r); }
 

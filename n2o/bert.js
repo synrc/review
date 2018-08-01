@@ -24,9 +24,29 @@ function bin(o) {
       new Uint8Array(o) : o instanceof Uint8Array ? o : utf8_toByteArray(o).v
   };
 }
+
+function int_to_bytes(Int) {
+  var isNegative, OriginalInt, i, Rem, s = [];
+  isNegative = (Int < 0);
+  if (isNegative) { Int = - Int - 1; }
+  OriginalInt = Int;
+  var length = 0;
+  while (Int !== 0) { Rem = Int % 256;
+    if (isNegative) { Rem = 255 - Rem; }
+    s.push(Rem); Int = Math.floor(Int / 256); length++; }
+  if (Int > 0) { throw ("Argument out of range: " + OriginalInt); }
+  return s;
+};
+
+function number(Obj) {
+  var s, isInteger = (Obj % 1 === 0);
+  if (isInteger && Obj >= 0 && Obj < 256) { return { t: 97, v: Obj };  }
+  if (isInteger && Obj >= -134217728 && Obj <= 134217727) { return {t: 98, v: Obj}; }
+  if (Number.isSafeInteger(Obj)) { return {t: 110, v: Obj}; } else {
+     throw ("Need to impelement bigInt: " + Obj); } }
+
 function tuple() { return { t: 104, v: Array.apply(null, arguments) }; }
 function list() { return { t: 108, v: Array.apply(null, arguments) }; }
-function number(o) { return { t: 98, v: o }; }
 function enc(o) { return fl([131, ein(o)]); }
 function ein(o) { return Array.isArray(o) ? en_108({ t: 108, v: o }) : eval('en_' + o.t)(o); }
 function en_undefined(o) { return [106]; }
@@ -47,6 +67,7 @@ function en_108(o) {
   var l = o.v.length, r = []; for (var i = 0; i < l; i++)r.push(ein(o.v[i]));
   return o.v.length == 0 ? [106] : [108, l >>> 24, (l >>> 16) & 255, (l >>> 8) & 255, l & 255, r, 106];
 }
+function en_110(o) { var s=int_to_bytes(o.v); return [110,s.length,(o.v<0)?1:0,...s]; }
 
 // BERT Decoder
 
@@ -73,12 +94,17 @@ function run(b) {
   var sz = (b == 1 ? sx.getUint8(ix) : sx.getUint32(ix)), r = []; ix += b;
   for (var i = 0; i < sz; i++) r.push(din()); if (b == 4) ix++; return r;
 };
+
+function arr(b) {
+  var dv, sz = sx.getUint16(ix); ix += b; return sx.buffer.slice(ix, ix += sz);
+};
+
 function din() {
   var c = sx.getUint8(ix++), x; switch (c) {
     case 97: x = [int, 1]; break;
     case 98: x = [int, 4]; break; case 100: x = [str, 2]; break;
     case 110: x = [big, 1]; break; case 111: x = [big, 4]; break;
-    case 104: x = [run, 1]; break; case 107: x = [str, 2]; break;
+    case 104: x = [run, 1]; break; case 107: x = [arr, 2]; break;
     case 108: x = [run, 4]; break; case 109: x = [str, 4]; break;
     default: x = [nop, 0];
   } return { t: c, v: x[0](x[1]) };
