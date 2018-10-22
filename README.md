@@ -166,5 +166,4 @@ This is a best place to put the federation relay for N2O modules.
 
 Credits
 -------
-* Brought to you by 5HT and M2K
-
+* Brought to you by 5HT
