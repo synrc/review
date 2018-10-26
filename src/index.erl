@@ -48,7 +48,7 @@ event(#client{id=Room,data=list}) ->
     [ nitro:insert_top(history, nitro:jse(message_view(E#entry.from,E#entry.media)))
       || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ];
 
-event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
+event(#ftp{sid=_Sid,filename=Filename,status={event,stop}}=Data) ->
     io:format("FTP Delivered ~p~n",[Data]),
     Name = hd(lists:reverse(string:tokens(nitro:to_list(Filename),"/"))),
     IP = application:get_env(review,host,"127.0.0.1"),

@@ -1,6 +1,8 @@
 MQTT Review Application
 =======================
 
+[![Build Status](https://travis-ci.org/synrc/review.svg?branch=master)](https://travis-ci.org/synrc/review)
+
 Here is example of working N2O Review Application on top of MQTT EMQ broker.
 
 Motivation
@@ -166,5 +168,5 @@ This is a best place to put the federation relay for N2O modules.
 
 Credits
 -------
-* Brought to you by 5HT and M2K
+* Brought to you by 5HT
 

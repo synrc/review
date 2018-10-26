@@ -3,7 +3,7 @@ defmodule FS.Mixfile do
 
   def project do
     [app: :review,
-     version: "3.4.0",
+     version: "1.10",
      description: "N2O Sample Application",
      deps: deps,
      docs: [],
