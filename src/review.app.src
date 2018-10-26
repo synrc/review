@@ -1,5 +1,5 @@
 {application,review,
-             [{description,"N2O Review Application"},
+             [{description,"REVIEW: MQTT Sample Application"},
               {vsn,"1.10"},
               {registered,[]},
               {applications,[kernel,stdlib,kvs,n2o]},

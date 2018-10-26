@@ -1,9 +1,11 @@
-MQTT Review Application
-=======================
+REVIEW: MQTT Sample Application
+===============================
 
 [![Build Status](https://travis-ci.org/synrc/review.svg?branch=master)](https://travis-ci.org/synrc/review)
 
-Here is example of working N2O Review Application on top of MQTT EMQ broker.
+Here is example of working Sample Application on
+top of MQTT EMQ broker with Github static files serving. N2O works as EMQ plugins
+and have direct access to internal EMQ structures.
 
 Motivation
 ----------
@@ -109,7 +111,7 @@ We traded `HEART` protocol and session facilities for bult-in MQTT features.
 N2O authentication and authorization mechanism is also abandoned as MQTT
 could provide AUTH features too. Obviously `wf:reg` and `wf:send` API
 is also abandoned as we can use `emqttd` API directly and `{deliver,_}` protocol of
-`ws_client` gen_server. 
+`ws_client` gen_server.
 
 What is added to N2O?
 ---------------------
@@ -136,7 +138,7 @@ This is a good part.
 * n2o_stream — no XHR fallback needed
 * n2o_heart — no PING protocol needed
 * n2o_mq — `syn` and `gproc` are no longer neede
-* n2o_query — no Query Router 
+* n2o_query — no Query Router
 * N2O.js — no pinger
 * ranch — `esockd` instead
 * cowboy — `mochiweb` for WebSockets inside EMQ
@@ -162,11 +164,10 @@ The single point of entrance is the `event(init)` message handler.
 It can only be reached by calling `n2o_nitrogen` with `{init,<<>>}` protocol message.
 However N2O MQTT is a protocol federation so we need to handle not only N2O messages,
 but also KVS, ROSTER, BPE, REST protocols.
-Thus after initialization during `client.subscribe`  we call `n2o_proto:info` — 
-the entire N2O protocol chain recursor inside `message.delivered` hook. 
+Thus after initialization during `client.subscribe`  we call `n2o_proto:info` —
+the entire N2O protocol chain recursor inside `message.delivered` hook.
 This is a best place to put the federation relay for N2O modules.
 
 Credits
 -------
-* Brought to you by 5HT
-
+* Brought with ❤  by N2O community
