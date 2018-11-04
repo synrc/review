@@ -34,7 +34,7 @@ var ftp = {
         ftp.start();
     },
     send: function (item, data) {
-        wsn.send(enc(tuple(atom('ftp'),
+        ws.send(enc(tuple(atom('ftp'),
             bin(item.id),
             bin(item.sid),
             bin(item.name),
@@ -44,14 +44,13 @@ var ftp = {
             number(item.block || data.byteLength),
             bin(data),
             bin(item.status || 'send')
-        )));
+        )), 0);
     },
     send_slice: function (item) {
         this.reader = new FileReader();
         this.reader.onloadend = function (e) {
             var res = e.target, data = e.target.result;
             if (res.readyState === FileReader.DONE && data.byteLength > 0) {
-                console.log(item);
                 ftp.send(item, data);
             }
         };
