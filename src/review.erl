@@ -70,14 +70,20 @@ merge_opts(Defaults, Options) ->
                 end
         end, Defaults, Options).
 
+dispatch(Path) ->
+    case Path of
+        [] -> application:get_env(?MODULE, main_page, "index.htm");
+        _ -> Path
+    end
+.
 
 handle(Req, DocRoot) ->
     io:format("~s ~s~n", [Req:get(method), Req:get(path)]),
-    try
-    case Req:get(method) of
+    try case Req:get(method) of
         'GET' ->
             "/" ++ Path = Req:get(path),
-            Req:serve_file(Path, DocRoot);
+            RealPath = dispatch(Path),
+            Req:serve_file(RealPath, DocRoot);
         'POST' ->
             Req:not_found();
         _Method ->
