@@ -1,172 +1,111 @@
-REVIEW: MQTT Sample Application
-===============================
+REVIEW: MQTT Sample IoT Application
+===================================
 
 [![Build Status](https://travis-ci.org/synrc/review.svg?branch=master)](https://travis-ci.org/synrc/review)
 
-Here is example of working Sample Application on
-top of MQTT EMQ broker with Github static files serving. N2O works as EMQ plugins
-and have direct access to internal EMQ structures.
+TL;DR MQTT Sample IoT Application is a Nitro N2O pages that works on top
+of MQTT connection between browser and server.
 
-Motivation
-----------
+Intro
+-----
 
-Prepare N2O protocol federation to commercial use on top of MQTT protocol.
-Minimize and remove all features, duplicated by MQTT pubsub broker.
-Provide EMQ extension that immediately introduce N2O protocol and
-application to connected MQTT devices. Create single Erlang eco-system
-for Enterprise Protocol Federation and establish
-solid CORBA-, WS-, XMPP-replacement, ready for high-speed,
-low-latency IoT applications.
+Sample application consist of two pages `login` and `index`.
+It creates WebSocket MQTT connection to `emqttd` server
+which is dependency of `n2o`.
 
-Run
----
+Index
+-----
 
-```sh
-$ brew install erlang
-$ curl -fsSL https://raw.github.com/synrc/mad/master/mad > mad \
-            && chmod +x mad \
-            && sudo cp mad /usr/local/bin
-$ git clone git://github.com/voxoz/mq && cd mq
-$ time mad dep com
-Writing /apps/review/ebin/review.app
-OK
-
-real    1m45.357s
-user    0m17.166s
-sys     0m5.065s
-$ mad rep
-Configuration: [{n2o,
-                    [{port,8000},
-                     {app,review},
-                     {pickler,n2o_secret},
-                     {formatter,bert},
-                     {log_modules,config},
-                     {log_level,config}]},
-                {emq_dashboard,
-                    [{listeners_dash,
-                         [{http,18083,[{acceptors,4},{max_clients,512}]}]}]},
-                {emqttd,
-                    [{listeners,
-                         [{http,8083,[{acceptors,4},{max_clients,512}]},
-                          {tcp,1883,[{acceptors,4},{max_clients,512}]}]},
-                     {sysmon,
-                         [{long_gc,false},
-                          {long_schedule,240},
-                          {large_heap,8000000},
-                          {busy_port,false},
-                          {busy_dist_port,true}]},
-                     {session,
-                         [{upgrade_qos,off},
-                          {max_inflight,32},
-                          {retry_interval,20},
-                          {max_awaiting_rel,100},
-                          {await_rel_timeout,20},
-                          {enable_stats,off}]},
-                     {queue,[]},
-                     {allow_anonymous,true},
-                     {protocol,
-                         [{max_clientid_len,1024},{max_packet_size,64000}]},
-                     {acl_file,"etc/acl.conf"},
-                     {plugins_etc_dir,"etc/plugins/"},
-                     {plugins_loaded_file,"etc/loaded_plugins"},
-                     {pubsub,
-                         [{pool_size,8},{by_clientid,true},{async,true}]}]},
-                {kvs,
-                    [{dba,store_mnesia},
-                     {schema,[kvs_user,kvs_acl,kvs_feed,kvs_subscription]}]}]
-Applications:  [kernel,stdlib,gproc,lager_syslog,pbkdf2,asn1,fs,ranch,mnesia,
-                compiler,inets,crypto,syntax_tools,xmerl,gen_logger,esockd,
-                cowlib,goldrush,public_key,lager,ssl,cowboy,mochiweb,emqttd,
-                erlydtl,kvs,mad,emqttc,nitro,rest,sh,syslog,review]
-Erlang/OTP 19 [erts-8.3] [source] [64-bit] [smp:4:4]
-              [async-threads:10] [hipe] [kernel-poll:false] [dtrace]
-
-Eshell V8.3  (abort with ^G)
-starting emqttd on node 'nonode@nohost'
-Nonexistent: []
-Plugins: [{mqtt_plugin,emq_auth_username,"2.1.1",
-                       "Authentication with Username/Password",false},
-          {mqtt_plugin,emq_dashboard,"2.1.1","EMQ Web Dashboard",false},
-          {mqtt_plugin,emq_modules,"2.1.1","EMQ Modules",false},
-          {mqtt_plugin,n2o,"4.5-mqtt","N2O Server",false}]
-Names: [emq_dashboard,n2o]
-dashboard:http listen on 0.0.0.0:18083 with 4 acceptors.
-Async Start Attempt {handler,"timer",n2o,system,n2o,[],[]}
-Proc Init: init
-mqtt:ws listen on 0.0.0.0:8083 with 4 acceptors.
-mqtt:tcp listen on 0.0.0.0:1883 with 4 acceptors.
-emqttd 2.1.1 is running now
->
-```
-After server is running you should enable `N2O over MQTT bridge` EMQ plugin
-on plugin page http://127.0.0.1:18083/#/plugins and then open application
-sample http://127.0.0.1:8000/spa/login.htm
-
-PING, SESSION, AUTH and MQ layers of N2O
-----------------------------------------
-
-`N2O_start` and `n2o.js` is no longer used in MQTT version of N2O.
-Instead `N2O_start` one should use `MQTT_start` and `mqtt.js` for session control replacement.
-We traded `HEART` protocol and session facilities for bult-in MQTT features.
-N2O authentication and authorization mechanism is also abandoned as MQTT
-could provide AUTH features too. Obviously `wf:reg` and `wf:send` API
-is also abandoned as we can use `emqttd` API directly and `{deliver,_}` protocol of
-`ws_client` gen_server.
-
-What is added to N2O?
----------------------
-
-The one bad thing about MQTT version is that we need to store now
-both MQTT and BERT formatters on client.
+Init event.
 
 ```
-<script src="//127.0.0.1:18083/assets/js/mqttws31.js"></script>
-<script src="/spa/mq.js"></script>
+event(init) ->
+    nitro:wire("nodes="++nitro:to_list(length(n2o:ring()))++";"),
+    #cx{session=Token,params=Id,node=Node} = get(context),
+    Room = n2o:session(room),
+    nitro:update(logout,  #button { id=logout,  body="Logout "  ++ n2o:user(),       postback=logout}),
+    nitro:update(send,    #button { id=send,    body="Chat",       source=[message], postback=chat}),
+    nitro:update(heading, #h2     { id=heading, body=Room}),
+    nitro:update(upload,  #upload { id=upload   }),
+    nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
+    Topic = iolist_to_binary(["events/1/",Node,"/index/anon/",Id,"/",Token]),
+    n2o:send_reply(<<>>, 2, Topic, term_to_binary(#client{id=Room,data=list})),
+    nitro:wire(#jq{target=message,method=[focus,select]});
 ```
 
-Also IBM version of MQTT JavaScript library is far beyond the
-speed and byte magic of `bert.js` library provided by N2O.
-We packed BERT encoding inside MSS/MTU and so we see
-WS31 replacement as desired.
+Chat event.
 
-Which layers are removed from MQTT version of N2O?
---------------------------------------------------
+```
+event(chat) ->
+    User    = n2o:user(),
+    Message = n2o:q(message),
+    Room    = n2o:session(room),
+    #cx{session=ClientId} = get(context),
+    io:format("Chat pressed: ~p\r~n",[{Room,ClientId,Message,User}]),
+    kvs:add(#entry{id=kvs:next_id("entry",1),
+                   from=n2o:user(),feed_id={room,Room},media=Message}),
 
-This is a good part.
+    nitro:insert_top(history, nitro:jse(message_view(User,Message))),
+    Actions = iolist_to_binary(n2o_nitro:render_actions(n2o:actions())),
+    M = term_to_binary({io,Actions,<<>>}),
+    n2o:send_reply(ClientId, 2, iolist_to_binary([<<"room/">>,Room]), M);
+```
 
-* n2o_session — no Browser, so no Cookies are needed
-* n2o_stream — no XHR fallback needed
-* n2o_heart — no PING protocol needed
-* n2o_mq — `syn` and `gproc` are no longer neede
-* n2o_query — no Query Router
-* N2O.js — no pinger
-* ranch — `esockd` instead
-* cowboy — `mochiweb` for WebSockets inside EMQ
+Client event.
 
-NOTE: WebSockets are not the most capacitive transport, the
-MQTT-SN extension is able to work on UDP streams.
-MQTT can work only over TCP for raw speed.
+````
+event(#client{id=Room,data=list}) ->
+    [ nitro:insert_top(history, nitro:jse(message_view(E#entry.from,E#entry.media)))
+      || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ];
+```
 
-Key Things N2O is relying on
-----------------------------
+FTP event.
 
-N2O is working entirely in context of `ws_client` processes of EMQ, just
-as it is working on top of `ranch` processes of `cowboy`.
-No additional `gen_server` is being introduced.
+```
+event(#ftp{sid=_Sid,filename=Filename,status={event,stop}}=Data) ->
+    io:format("FTP Delivered ~p~n",[Data]),
+    Name = hd(lists:reverse(string:tokens(nitro:to_list(Filename),"/"))),
+    IP = application:get_env(review,host,"127.0.0.1"),
+    erlang:put(message,
+    nitro:render(#link{href=iolist_to_binary(["http://",IP,":8000/ftp/",
+                       nitro_conv:url_encode(Name)]),body=Name})),
+    event(chat);
+```
 
-The only official transparent way with zero abstractions is to use EMQ hooks
-mechanism. For N2O we need to implement only two cases `client.subscribe` and
-`message.delivered`. On client subscribe we deliver all persistent information
-that are ready for the client. On Message delivered we to unpacking any N2O
-BERT protocol message inside MQTT session.
+Login
+-----
 
-The single point of entrance is the `event(init)` message handler.
-It can only be reached by calling `n2o_nitrogen` with `{init,<<>>}` protocol message.
-However N2O MQTT is a protocol federation so we need to handle not only N2O messages,
-but also KVS, ROSTER, BPE, REST protocols.
-Thus after initialization during `client.subscribe`  we call `n2o_proto:info` —
-the entire N2O protocol chain recursor inside `message.delivered` hook.
-This is a best place to put the federation relay for N2O modules.
+Channel init.
+
+```
+event(init) ->
+    nitro:wire("nodes="++nitro:to_list(length(n2o:ring()))++";"),
+    nitro:update(loginButton,
+          #button { id=loginButton, body="login",
+                    postback=login,source=[user,pass]});
+```
+
+Login event.
+
+```
+event(login) ->
+    User = nitro:to_list(n2o:q(user)),
+    Room = nitro:to_list(n2o:q(pass)),
+    n2o:user(User),
+    n2o:session(room,Room),
+    nitro:redirect("/index.htm");
+```
+
+Setup
+-----
+
+You don't try `review` application directly, instead you clone `voxoz/mq`
+top-level repository and include `review` as dependency in `rebar.config`:
+
+```
+$ git clone https://github.com/voxoz/mq && cd mq
+$ mad dep com pla rep
+```
 
 Credits
 -------
