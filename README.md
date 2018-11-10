@@ -1,5 +1,5 @@
-REVIEW: MQTT Sample IoT Application
-===================================
+REVIEW: IoT Web Application
+===========================
 
 [![Build Status](https://travis-ci.org/synrc/review.svg?branch=master)](https://travis-ci.org/synrc/review)
 
@@ -23,10 +23,12 @@ event(init) ->
     nitro:wire("nodes="++nitro:to_list(length(n2o:ring()))++";"),
     #cx{session=Token,params=Id,node=Node} = get(context),
     Room = n2o:session(room),
-    nitro:update(logout,  #button { id=logout,  body="Logout "  ++ n2o:user(),       postback=logout}),
-    nitro:update(send,    #button { id=send,    body="Chat",       source=[message], postback=chat}),
-    nitro:update(heading, #h2     { id=heading, body=Room}),
-    nitro:update(upload,  #upload { id=upload   }),
+    nitro:update(logout,
+      #button { id=logout, body="Logout " ++ n2o:user(),postback=logout}),
+    nitro:update(send,
+      #button { id=send, body="Chat", source=[message], postback=chat}),
+    nitro:update(heading, #h2 { id=heading, body=Room}),
+    nitro:update(upload, #upload { id=upload   }),
     nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
     Topic = iolist_to_binary(["events/1/",Node,"/index/anon/",Id,"/",Token]),
     n2o:send_reply(<<>>, 2, Topic, term_to_binary(#client{id=Room,data=list})),
@@ -53,7 +55,7 @@ event(chat) ->
 
 Client event.
 
-````
+```
 event(#client{id=Room,data=list}) ->
     [ nitro:insert_top(history, nitro:jse(message_view(E#entry.from,E#entry.media)))
       || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ];
@@ -109,4 +111,4 @@ $ mad dep com pla rep
 
 Credits
 -------
-* Brought with ❤  by N2O community
+* Brought with ❤ by N2O community
