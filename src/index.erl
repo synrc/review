@@ -9,7 +9,6 @@ event(init) ->
     nitro:wire("nodes="++nitro:to_list(length(n2o:ring()))++";"),
     #cx{session=Token,params=Id,node=Node} = get(context),
     Room = n2o:session(room),
-    io:format("Room: ~p~n",[Room]),
     nitro:update(logout,  #button { id=logout,  body="Logout "  ++ n2o:user(),       postback=logout}),
     nitro:update(send,    #button { id=send,    body="Chat",       source=[message], postback=chat}),
     nitro:update(heading, #h2     { id=heading, body=Room}),
@@ -17,14 +16,15 @@ event(init) ->
     nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
     Topic = iolist_to_binary(["events/1/",Node,"/index/anon/",Id,"/",Token]),
     n2o:send_reply(<<>>, 2, Topic, term_to_binary(#client{id=Room,data=list})),
+    io:format("Room: ~p~n",[Room]),
     nitro:wire(#jq{target=message,method=[focus,select]});
 
 event(chat) ->
     User    = n2o:user(),
     Message = n2o:q(message),
     Room    = n2o:session(room),
+    io:format("Chat pressed: ~p\r~n",[{Room,Message,User}]),
     #cx{session=ClientId} = get(context),
-    io:format("Chat pressed: ~p\r~n",[{Room,ClientId,Message,User}]),
     kvs:add(#entry{id=kvs:next_id("entry",1),
                    from=n2o:user(),feed_id={room,Room},media=Message}),
     nitro:insert_top(history, nitro:jse(message_view(User,Message))),
