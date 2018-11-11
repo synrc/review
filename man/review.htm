@@ -39,11 +39,11 @@
         <figure>
             <figcaption>Picture 1. HOW TO SETUP BOTH APP AND SUP IN ERLANG</figcaption>
             <code>
--module(review).
--behaviour(supervisor).
--behaviour(application).
--export([init/1, start/0, start/2, stop/1, main/1]).
--compile(export_all).
+ -module(review).
+ -behaviour(supervisor).
+ -behaviour(application).
+ -export([init/1, start/0, start/2, stop/1, main/1]).
+ -compile(export_all).
             </code>
         </figure>
 
@@ -77,7 +77,7 @@
         <figure>
             <figcaption>Picture 3. MOCHIWEB setup</figcaption>
             <code>
-spec()     ->
+ spec()     ->
     Acceptors  = application:get_env(?MODULE, acceptors,   4),
     Clients    = application:get_env(?MODULE, max_clients, 512),
     Protocol   = application:get_env(?MODULE, protocol,    http),
@@ -86,7 +86,7 @@ spec()     ->
     Args       = [{mochiweb, handle, [docroot()]}],
     mochiweb:child_spec(Protocol, Port, Options, Args).
 
-docroot() ->
+ docroot() ->
     {file, Here} = code:is_loaded(?MODULE),
     Dir = filename:dirname(filename:dirname(Here)),
     Root = application:get_env(?MODULE, "statics_root", "priv/www"),
