@@ -14,7 +14,7 @@
 
 <nav>
     <a href='https://synrc.space/'>SYNRC</a>
-    <a href='https://n2o.space'>N2O</a>
+    <a href='https://n2o.space'>N2O ECO</a>
 </nav>
 
 <header>
@@ -59,24 +59,24 @@
 <main>
 
     <section>
-        <a name=sample><h3>Sample Application</h3></a>
+        <a name=sample><h3>Start</h3></a>
         <figure>
-            <figcaption>Listing 2. Sample Web Application written in NITRO DSL</figcaption>
+            <figcaption>Picture 3. RUN</figcaption>
             <code>
-  main() -> [].
+ Eshell V8.1  (abort with ^G)
+ 1> starting emqttd on node 'nonode@nohost'
+ mqtt:tcp listen on 0.0.0.0:1883 with 8 acceptors.
+ mqtt:ssl listen on 0.0.0.0:8883 with 4 acceptors.
+ mqtt:ws listen on 0.0.0.0:8083 with 4 acceptors.
+ mqtt:wss listen on 0.0.0.0:8084 with 4 acceptors.
+ emqttd 2.1.2 is running now
+ http listen on 0.0.0.0:8000 with 16 acceptors.
+            </code>
+        </figure>
+    </section>
 
-  event(init) ->
-    nitro:update(loginButton,
-      #button{id=loginButton,body="Login",
-              postback=login,source=[user,pass]});
-
-  event(login) ->
-    nitro:redirect("index.htm?room=" ++ 
-    nitro:to_list(
-    n2o:q(pass)));
-
-</code>
-</figure>
+    <section>
+        <a name=sample><h3>Sample Application</h3></a>
         <figure>
             <figcaption>Picture 3. N2O Review Application</figcaption>
             <img src="https://n2o.space/img/n2o-mqtt.png">
