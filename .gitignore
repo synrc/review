@@ -1,0 +1,7 @@
+ebin
+priv
+log
+logs
+.applist
+Mnesia.nonode@nohost
+deps
