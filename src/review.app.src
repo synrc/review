@@ -2,7 +2,7 @@
              [{description,"REVIEW IoT Application"},
               {vsn,"1.10"},
               {registered,[]},
-              {applications,[kernel,stdlib,kvs,n2o]},
+              {applications,[kernel,stdlib,kvs,emqttd,n2o]},
               {mod,{review,[]}},
               {env,[]},
               {modules,[]}]}.
