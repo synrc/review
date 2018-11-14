@@ -1,5 +1,5 @@
 {application,review,
-             [{description,"REVIEW IoT Application"},
+             [{description,"REVIEW TT Application"},
               {vsn,"1.10"},
               {registered,[]},
               {applications,[kernel,stdlib,kvs,emqttd,n2o]},
