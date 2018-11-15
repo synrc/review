@@ -22,5 +22,5 @@ spec()     ->
 docroot() ->
     {file, Here} = code:is_loaded(?MODULE),
     Dir = filename:dirname(filename:dirname(Here)),
-    Root = application:get_env(?MODULE, "statics_root", "priv/www"),
+    Root = application:get_env(?MODULE, "statics_root", "priv/static"),
     filename:join([Dir, Root]).

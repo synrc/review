@@ -5,3 +5,5 @@ logs
 .applist
 Mnesia.nonode@nohost
 deps
+.rebar
+review
