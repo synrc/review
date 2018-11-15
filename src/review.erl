@@ -7,7 +7,7 @@
 main(A)    -> mad:main(A).
 init([])   -> {ok, {{one_for_one, 5, 10}, [spec()]}}.
 start()    -> start(normal,[]).
-start(_,_) -> emqttd_access_control:register_mod(auth, n2o_auth, [[]], 9998),
+start(_,_) -> emqttd_access_control:register_mod(auth, n2o_auth, [[]], 10),
               supervisor:start_link({local,review},review,[]).
 stop(_)    -> ok.
 spec()     ->
