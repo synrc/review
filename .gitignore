@@ -7,3 +7,5 @@ Mnesia.nonode@nohost
 deps
 .rebar
 review
+_build
+rebar.lock
