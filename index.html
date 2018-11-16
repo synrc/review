@@ -59,9 +59,21 @@
 <main>
 
     <section>
-        <a name=sample><h3>Start</h3></a>
+        <a name=sample><h3>START</h3></a>
+
         <figure>
-            <figcaption>Picture 3. RUN</figcaption>
+            <figcaption>Picture 1. Minimal Configuration</figcaption>
+            <code>
+ {deps, [{kvs,    ".*", {git, "git://github.com/synrc/kvs",    []}},
+         {n2o,    ".*", {git, "git://github.com/synrc/mqtt",   []}},
+         {emqttd, ".*", {git, "git://github.com/synrc/emqttd", []}},
+         {nitro,  ".*", {git, "git://github.com/synrc/nitro",  []}}
+        ]}.
+            </code>
+        </figure>
+
+        <figure>
+            <figcaption>Picture 2. Development Release</figcaption>
             <code>
  Eshell V8.1  (abort with ^G)
  1> starting emqttd on node 'nonode@nohost'
@@ -71,6 +83,36 @@
  mqtt:wss listen on 0.0.0.0:8084 with 4 acceptors.
  emqttd 2.1.2 is running now
  http listen on 0.0.0.0:8000 with 16 acceptors.
+
+ > application:which_applications().
+ [{review,"REVIEW TT Application","1.10"},
+  {sh,"SH Exec","2.10"},
+  {nitro,"NITRO HTML5 DSL","3.10"},
+  {mad,"MAD Manage Dependencies","4.11"},
+  {emqttc,"Erlang MQTT Client","0.8.0"},
+  {emq_dashboard,"EMQ Web Dashboard","2.1.1"},
+  {active,"ACT Filesystem Activities","4.10"},
+  {emqttd,"MQTT Broker","2.1.2"},
+  {mochiweb,"MochiMedia Web Server","4.2.1"},
+  {ssl,"Erlang/OTP SSL application","9.0.3"},
+  {lager,"Erlang logging framework","3.2.2"},
+  {kvs,"KVS Abstract Term Database","5.10"},
+  {public_key,"Public key infrastructure","1.6.2"},
+  {esockd,"ESOCKD Non-blocking TCP/SSL Server","4.1.1"},
+  {goldrush,"Erlang event stream processor","0.1.9"},
+  {n2o,"N2O DAS MQTT TCP WebSocket","5.11"},
+  {xmerl,"XML parser","1.3.18"},
+  {syntax_tools,"Syntax tools","2.1.6"},
+  {crypto,"CRYPTO","4.3.3"},
+  {inets,"INETS  CXC 138 49","7.0.2"},
+  {compiler,"ERTS  CXC 138 10","7.2.6"},
+  {mnesia,"MNESIA  CXC 138 12","4.15.5"},
+  {gen_logger,"Erlang gen_logger behaviour","1.2"},
+  {asn1,"The Erlang ASN1 compiler version 5.0.7","5.0.7"},
+  {gproc,"GPROC Process Registry","0.10"},
+  {fs,"FS VXZ Listener","4.10"},
+  {stdlib,"ERTS  CXC 138 10","3.6"},
+  {kernel,"ERTS  CXC 138 10","6.1"}]
             </code>
         </figure>
     </section>
