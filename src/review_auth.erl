@@ -2,7 +2,7 @@
 -include_lib("n2o/include/n2o.hrl").
 -compile(export_all).
 
-info({init, <<>>}, Req, State = #cx{session = Session}) ->
+info({join, <<>>}, Req, State = #cx{session = Session}) ->
     {'Token', Token} = n2o_auth:gen_token([], Session),
     #cx{params = _ClientId} = get(context),
     kvs:put({config, Token, State}),

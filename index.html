@@ -47,10 +47,16 @@
             </div>
         <figure>
         <code>
- $ mad get review
- $ cd deps/review
- $ mad dep com pla rep
+ $ mad app mqtt joe
+ $  cd joe
+ $ mad dep com pla
+ $ mad rep
+ >
+
  $ open http://127.0.0.1:8000
+
+ $ mad bun beam joe
+ $ mad bun script joe
         </code></figure>
 
         </section>
@@ -62,12 +68,12 @@
         <a name=sample><h3>REBAR3</h3></a>
 
         <figure>
-            <figcaption>Picture 1. OTP tools</figcaption>
+            <figcaption>Picture 1. OTP SHELL</figcaption>
             <code>
- $ mad app mqtt joe
- $ cd joe
+ $ git clone git://github.com/synrc/review
+ $ cd review
  $ rebar3 shell
- > joe:rebar3().
+ > review:rebar3().
  ok
 
  $ open http://127.0.0.1:8000
@@ -155,7 +161,7 @@
 </main>
 
 <footer>
-    Made with <span class="heart">❤</span> for EMQ and N2O
+    Made with <span class="heart">❤</span> to N2O
 </footer>
 
 </body>
