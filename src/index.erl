@@ -6,7 +6,7 @@
 -include_lib("n2o/include/n2o.hrl").
 
 event(init) ->
-    nitro:wire("nodes="++nitro:to_list(length(n2o:ring()))++";"),
+%    nitro:wire("nodes="++nitro:to_list(length(n2o:ring()))++";"),
     #cx{session=Token,params=Id,node=Node} = get(context),
     Room = n2o:session(room),
     nitro:update(logout,  #button { id=logout,  body="Logout "  ++ n2o:user(),       postback=logout}),
@@ -16,7 +16,7 @@ event(init) ->
     nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
     Topic = iolist_to_binary(["events/1/",Node,"/index/anon/",Id,"/",Token]),
     n2o:send_reply(<<>>, 2, Topic, term_to_binary(#client{data={Room,list}})),
-    io:format("Room: ~p~n",[Room]),
+%    io:format("Room: ~p~n",[Room]),
     nitro:wire(#jq{target=message,method=[focus,select]});
 
 event(chat) ->
