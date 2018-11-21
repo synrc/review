@@ -16,7 +16,7 @@ event(init) ->
     nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
     Topic = iolist_to_binary(["events/1/",Node,"/index/anon/",Id,"/",Token]),
     n2o:send_reply(<<>>, 2, Topic, term_to_binary(#client{data={Room,list}})),
-%    io:format("Room: ~p~n",[Room]),
+    io:format("Room: ~p~n",[Room]),
     nitro:wire(#jq{target=message,method=[focus,select]});
 
 event(chat) ->
@@ -42,7 +42,7 @@ event(#ftp{sid=_Sid,filename=Filename,status={event,stop}}=Data) ->
     Name = hd(lists:reverse(string:tokens(nitro:to_list(Filename),"/"))),
     IP = application:get_env(review,host,"127.0.0.1"),
     erlang:put(message,
-    nitro:render(#link{href=iolist_to_binary(["http://",IP,":8000/ftp/",
+    nitro:render(#link{href=iolist_to_binary(["http://",IP,":8000/n2o/",
                        nitro_conv:url_encode(Name)]),body=Name})),
     event(chat);
 
