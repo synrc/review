@@ -21,14 +21,14 @@ event(init) ->
 
 event(chat) ->
     User    = n2o:user(),
-    Message = n2o:q(message),
+    Message = nitro:q(message),
     Room    = n2o:session(room),
     io:format("Chat pressed: ~p\r~n",[{Room,Message,User}]),
     #cx{session=ClientId} = get(context),
     kvs:add(#entry{id=kvs:next_id("entry",1),
                    from=n2o:user(),feed_id={room,Room},media=Message}),
     nitro:insert_top(history, nitro:jse(message_view(User,Message))),
-    Actions = iolist_to_binary(n2o_nitro:render_actions(n2o:actions())),
+    Actions = iolist_to_binary(n2o_nitro:render_actions(nitro:actions())),
     M = term_to_binary({io,Actions,<<>>}),
     io:format("Actions: ~p~n",[Actions]),
     n2o:send_reply(ClientId, 2, iolist_to_binary([<<"room/">>,Room]), M);
