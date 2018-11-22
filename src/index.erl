@@ -30,15 +30,16 @@ event(chat) ->
     nitro:insert_top(history, nitro:jse(message_view(User,Message))),
     Actions = iolist_to_binary(n2o_nitro:render_actions(nitro:actions())),
     M = term_to_binary({io,Actions,<<>>}),
-    io:format("Actions: ~p~n",[Actions]),
     n2o_vnode:send_reply(ClientId, 2, iolist_to_binary([<<"room/">>,Room]), M);
 
 event(#client{data={Room,list}}) ->
     [ nitro:insert_top(history, nitro:jse(message_view(E#entry.from,E#entry.media)))
       || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ];
 
+event(#ftp{sid=_Sid,filename=Filename,status={event,init}}=Data) ->
+    ok;
+
 event(#ftp{sid=_Sid,filename=Filename,status={event,stop}}=Data) ->
-    io:format("FTP Delivered ~p~n",[Data]),
     Name = hd(lists:reverse(string:tokens(nitro:to_list(Filename),"/"))),
     IP = application:get_env(review,host,"127.0.0.1"),
     erlang:put(message,
