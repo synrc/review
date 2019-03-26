@@ -101,12 +101,18 @@ event(login) ->
 Setup
 -----
 
-You don't try `review` application directly, instead you clone `voxoz/mq`
-top-level repository and include `review` as dependency in `rebar.config`:
+To run review application just clone, build and run:
 
 ```
-$ git clone https://github.com/voxoz/mq && cd mq
+$ git clone git clone git://github.com/synrc/review
+$ cd review
 $ mad dep com pla rep
+```
+
+Then open it in browser:
+
+```
+$ open http://127.0.0.1:8000
 ```
 
 Credits
