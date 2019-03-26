@@ -10,8 +10,8 @@ Intro
 -----
 
 Sample application consist of two pages `login` and `index`.
-It creates WebSocket MQTT connection to `emqttd` server
-which is dependency of `n2o`.
+It creates WebSocket MQTT connection to `emqttd` server which is dependency of `n2o`.
+The permanent example is accesible at <a href="http://review.n2o.space/index.htm">ns.synrc.com:8000</a>.
 
 Index
 -----
