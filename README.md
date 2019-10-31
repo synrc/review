@@ -1,7 +1,7 @@
 REVIEW TT: MQTT Application
 ===========================
 
-[![Build Status](https://travis-ci.org/synrc/review.svg?branch=master)](https://travis-ci.org/synrc/review)
+[![Build Status](https://travis-ci.com/synrc/review.svg?branch=master)](https://travis-ci.com/synrc/review)
 
 TL;DR MQTT Sample IoT Application is a Nitro N2O pages that works on top
 of MQTT connection between browser and server.
