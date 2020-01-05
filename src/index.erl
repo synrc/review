@@ -52,6 +52,3 @@ event(Event)  -> io:format("Event: ~p", [Event]).
 
 message_view(User,Message) ->
    iolist_to_binary(["<message><author>",User,"</author>",Message,"</message>"]).
-
-main() -> [].
-
