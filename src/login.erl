@@ -18,4 +18,3 @@ event(login) ->
     nitro:redirect("/index.htm");
 
 event(_) -> [].
-main()   -> [].
