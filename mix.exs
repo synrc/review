@@ -1,33 +1,43 @@
-defmodule REVIEW.Mixfile do
-  use Mix.Project
+defmodule Review.MixProject do
+ use Mix.Project
 
-  def project do
+ def project do
     [
-     app: :review,
-     version: "2.8.0",
-     description: "N2O Sample Application",
-     deps: deps(),
-     docs: [],
-     package: package()
+      app: :review,
+      version: "1.2.0",
+      description: "Review",
+      elixir: "~> 1.10",
+      start_permanent: Mix.env() == :prod,
+      erlc_paths: ["src"],
+      deps: deps()
     ]
-  end
+ end
 
-  defp package do
+ def application do
     [
-     files: ~w(doc lib mix.exs LICENSE),
-     licenses: ["ISC"],
-     maintainers: ["Namdak Tonpa"],
-     name: :review,
-     links: %{"GitHub" => "https://github.com/synrc/review"}
+      mod: {Review.App, []},
+      applications: [
+        :mnesia,
+        :syn,
+        :kvs,
+        :xio,
+        :nitro,
+        :n2o
+      ]
     ]
-   end
+ end
 
-  defp deps do
-     [
-      {:ex_doc, "~> 0.20.2", only: :dev},
-      {:emq_dashboard, github: "synrc/emq_dashboard"},
-      {:n2o, "~> 6.5.0"},
-      {:nitro, "~> 4.4.1"},
-     ]
-  end
+ def deps do
+  [
+    {:syn, github: "ostinelli/syn", ref: "2.1.1", override: true}, # {:syn, "~> 2.1.1", override: true},
+    {:kvs, "~> 7.9.1", override: true},
+    {:getopt, github: "xio/getopt", ref: "master", override: true},
+    {:cowlib, "~> 2.9.1", override: true},
+    {:cowboy, "~> 2.8.0", override: true},
+    {:xio, github: "erpuno/xio", ref: "v4.2"},
+    {:emqtt, "~> 1.2"},
+    {:n2o, github: "synrc/n2o", ref: "master", override: true},    # {:n2o, "~> 7.10.0"}
+    {:nitro, github: "synrc/nitro", ref: "master", override: true}, # {:nitro, "~> 5.9.1", override: true}
+  ]
+ end
 end
