@@ -8,3 +8,4 @@ deps
 review
 _build
 rebar.lock
+mix.lock
