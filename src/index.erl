@@ -13,33 +13,21 @@ event(init) ->
     nitro:update(send,    #button { id=send,    body="Chat",       source=[message], postback=chat}),
     nitro:update(upload,  #upload { id=attach }),
     nitro:wire(#jq{target=message,method=[focus,select]}),
-    [ nitro:insert_top(history, msg(Msg))
-        || {'$msg',_,_,_,_, Msg} <- lists:reverse(kvs:feed({room,Room}))];
+    [event(#client{data=E}) || E <- lists:reverse(kvs:feed({room,Room}))];
 
 event(chat) ->
-    Usr     = n2o:user(),
-    Message = nitro:q(message),
-    Room    = n2o:session(room),
-    Msg = {'$msg', kvs:seq([], []), [], [], Usr, nitro:jse(Message)},
-    kvs:append(Msg, {room, Room}),
-    nitro:insert_top(history, msg(Message)),
-    nitro:wire(#jq{target=message,method=[focus,select]});
+    event(#client{data={'$msg', kvs:seq([], []), [], [], n2o:user(), nitro:jse(nitro:q(message))}});
 
 event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
-    Room    = n2o:session(room),
-    Usr     = n2o:user(),
     Name = hd(lists:reverse(string:tokens(nitro:to_list(Filename),"/"))),
     Message = nitro:render(#link{href=iolist_to_binary(["/app/",Name]),body=Name}),
-    Msg = {'$msg', kvs:seq([], []), [], [], Usr, nitro:jse(Message)},
-    kvs:append(Msg,{room, Room}),
-    nitro:insert_top(history, msg(Message)),
-    nitro:wire(#jq{target=message,method=[focus,select]});
+    event(#client{data={'$msg',kvs:seq([], []), [], [], n2o:user(), Message}});
+    
+event(#client{data={'$msg',_,_,_,User,Message}=Msg}) ->
+    kvs:append(Msg,{room, n2o:session(room)}),
+    HTML = nitro:to_list(Message),
+    nitro:wire(#jq{target=message,method=[focus,select]}),
+    nitro:insert_top(history, nitro:render(#message{body=[#author{body=User},nitro:jse(HTML)]}));
 
 event(logout) ->  nitro:redirect("/login.htm"), n2o:session(room,[]);
 event(Event)  -> io:format("Index Event: ~p", [Event]).
-
-msg(M) ->
-    Usr = n2o:user(),
-    nitro:render(#message{body=[#author{body=Usr}, 
-        nitro:jse(M)
-    ]}).
