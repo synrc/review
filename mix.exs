@@ -34,6 +34,7 @@ defmodule Review.MixProject do
     {:getopt, github: "xio/getopt", ref: "master", override: true},
     {:cowlib, "~> 2.9.1", override: true},
     {:cowboy, "~> 2.8.0", override: true},
+    {:ranch,  "~> 1.7.1", override: true},
     {:xio, github: "erpuno/xio", ref: "v4.2"},
     {:emqtt, "~> 1.2"},
     {:n2o, github: "synrc/n2o", ref: "master", override: true},    # {:n2o, "~> 7.10.0"}
