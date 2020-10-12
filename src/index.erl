@@ -1,33 +1,32 @@
 -module(index).
 -description('MQTT Application').
 -compile(export_all).
--include_lib("kvs/include/kvs.hrl").
 -include_lib("nitro/include/nitro.hrl").
 -include_lib("n2o/include/n2o.hrl").
+-include_lib("kvs/include/kvs.hrl").
 
 event(init) ->
-    #cx{session=Token,params=Id,node=Node} = Ctx = get(context),
     Room = n2o:session(room),
+    n2o:reg({room,Room}),
+    n2o:reg(n2o:sid()),
+    nitro:clear(history),
     nitro:update(logout,  #button { id=logout,  body="Logout "  ++ n2o:user(),       postback=logout}),
     nitro:update(send,    #button { id=send,    body="Chat",       source=[message], postback=chat}),
     nitro:update(upload,  #upload { id=attach }),
-    nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
-    %n2o_vnode:send_reply('', 2, Topic, term_to_binary(#client{data={Room,list}})),
-    nitro:wire(#jq{target=message,method=[focus,select]});
+    nitro:wire(#jq{target=message,method=[focus,select]}),
+    [ event(#client{data=E}) || E <- lists:reverse(kvs:feed({room,Room}))];
 
 event(chat) ->
-    User    = n2o:user(),
+    Usr    = n2o:user(),
     Message = nitro:q(message),
     Room    = n2o:session(room),
-    io:format("Chat pressed: ~p\r~n",[{Room,Message,User}]),
-    #cx{session=ClientId} = get(context),
-    % kvs:add(#entry{id=kvs:next_id("entry",1),
-    %                from=n2o:user(),feed_id={room,Room},media=Message}),
-    nitro:insert_top(history, nitro:jse(message_view(User,Message)));
+    Msg = {'$msg', kvs:seq([], []), [], [], Usr, nitro:jse(Message)},
+    kvs:append(Msg, {room, Room}),    
+    nitro:insert_top(history, nitro:render(#message{body=[#author{body=Usr}, nitro:jse(Message)]}));
 
-event(#client{data={Room,list}}) ->
-    [ nitro:insert_top(history, nitro:jse(message_view(E#entry.from,E#entry.media)))
-       || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ];
+event(#client{data={'$msg',_,_,_, Usr, Msg}}) ->
+    HTML = nitro:render(#message{body=[#author{body=Usr}, nitro:jse(Msg)]}),
+    nitro:insert_top(history, HTML);
 
 event(#ftp{sid=_Sid,filename=Filename,status={event,init}}=Data) ->
     ok;
@@ -42,6 +41,3 @@ event(#ftp{sid=_Sid,filename=Filename,status={event,stop}}=Data) ->
 
 event(logout) ->  nitro:redirect("/login.htm"), n2o:session(room,[]);
 event(Event)  -> io:format("Index Event: ~p", [Event]).
-
-message_view(User,Message) ->
-   iolist_to_binary(["<message><author>",User,"</author>",Message,"</message>"]).
