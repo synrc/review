@@ -18,7 +18,7 @@ event(init) ->
 event(chat) ->
     event(#client{data={'$msg', kvs:seq([], []), [], [], n2o:user(), nitro:jse(nitro:q(message))}});
 
-event(#ftp{sid=Sid,filename=Filename,status={event,stop}}=Data) ->
+event(#ftp{sid=_Sid,filename=Filename,status={event,stop}}) ->
     Name = hd(lists:reverse(string:tokens(nitro:to_list(Filename),"/"))),
     Message = nitro:render(#link{href=iolist_to_binary(["/app/",Name]),body=Name}),
     event(#client{data={'$msg',kvs:seq([], []), [], [], n2o:user(), Message}});
