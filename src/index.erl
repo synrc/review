@@ -6,7 +6,6 @@
 -include_lib("n2o/include/n2o.hrl").
 
 event(init) ->
-    io:format("INIT INDEX PAGE~n"),
     #cx{session=Token,params=Id,node=Node} = Ctx = get(context),
     Room = n2o:session(room),
     nitro:update(logout,  #button { id=logout,  body="Logout "  ++ n2o:user(),       postback=logout}),
@@ -24,15 +23,11 @@ event(chat) ->
     #cx{session=ClientId} = get(context),
     % kvs:add(#entry{id=kvs:next_id("entry",1),
     %                from=n2o:user(),feed_id={room,Room},media=Message}),
-    nitro:insert_top(history, nitro:jse(message_view(User,Message))),
-    Actions = iolist_to_binary(n2o_nitro:render_actions(nitro:actions())),
-    M = term_to_binary({io,Actions,<<>>}),
-    n2o_vnode:send_reply({ClientId,undefined}, 2, iolist_to_binary([<<"room/">>,Room]), M);
+    nitro:insert_top(history, nitro:jse(message_view(User,Message)));
 
 event(#client{data={Room,list}}) ->
-    % [ nitro:insert_top(history, nitro:jse(message_view(E#entry.from,E#entry.media)))
-    %   || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ];
-    [];
+    [ nitro:insert_top(history, nitro:jse(message_view(E#entry.from,E#entry.media)))
+       || E <- lists:reverse(kvs:entries(kvs:get(feed,{room,Room}),entry,30)) ];
 
 event(#ftp{sid=_Sid,filename=Filename,status={event,init}}=Data) ->
     ok;
@@ -46,7 +41,7 @@ event(#ftp{sid=_Sid,filename=Filename,status={event,stop}}=Data) ->
     event(chat);
 
 event(logout) ->  nitro:redirect("/login.htm"), n2o:session(room,[]);
-event(Event)  -> io:format("Event: ~p", [Event]).
+event(Event)  -> io:format("Index Event: ~p", [Event]).
 
 message_view(User,Message) ->
    iolist_to_binary(["<message><author>",User,"</author>",Message,"</message>"]).
