@@ -10,9 +10,11 @@ config :n2o,
   port: 8000,
   mq: :n2o_syn,
   pickler: :n2o_secret,
-  tables: [:cookies, :tcp, :mqtt, :async, :caching, :ws],
+  tables: [:cookies, :mqtt, :async, :caching, :file],
   upload: "./priv/static",
   protocols: [:nitro_n2o, :n2o_heart, :n2o_ftp],
+  ws_services: [],
+  tcp_services: [],
   mqtt_services: [:index]
 
 config :emqx,
