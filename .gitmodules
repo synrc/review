@@ -4,3 +4,6 @@
 [submodule "emqx_management"]
  path = deps/emqx_management
  url = git@github.com:xio/emqx-management.git
+[submodule "kvs"]
+ path = deps/kvs
+ url = git@github:synrc/kvs.git

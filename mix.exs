@@ -29,8 +29,8 @@ defmodule Review.MixProject do
 
  def deps do
   [
-    {:syn, github: "ostinelli/syn", ref: "2.1.1", override: true}, # {:syn, "~> 2.1.1", override: true},
-    {:kvs, "~> 7.9.1", override: true},
+    {:syn, github: "ostinelli/syn", ref: "2.1.1", override: true},  # {:syn, "~> 2.1.1", override: true},
+    {:kvs, github: "synrc/kvs", ref: "7.9.1", override: true},      # {:kvs, "~> 7.9.1", override: true},
     {:getopt, github: "xio/getopt", ref: "master", override: true},
     {:cowlib, "~> 2.9.1", override: true},
     {:cowboy, "~> 2.8.0", override: true},
