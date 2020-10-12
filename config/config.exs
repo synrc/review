@@ -11,7 +11,7 @@ config :n2o,
   mq: :n2o_syn,
   tables: [:cookies, :tcp, :mqtt, :async, :caching, :ws],
   upload: "./priv/static",
-  protocols: [:n2o_nitro, :n2o_heart, :n2o_ftp, :index],
+  protocols: [:nitro_n2o, :n2o_heart, :n2o_ftp],
   mqtt_services: [:index]
 
 config :emqx,
