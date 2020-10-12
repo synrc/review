@@ -5,25 +5,14 @@
 -include_lib("nitro/include/nitro.hrl").
 -include_lib("n2o/include/n2o.hrl").
 
-info(M,R,S) ->
-    %actions/:vsn/:module/:client
-    #cx{module=Mod, vsn=Vsn, params=Cid} = S,
-    Msg = n2o_nitro:io(init, S),
-    Topic = iolist_to_binary(["/actions/", Vsn, "/", atom_to_list(Mod), "/", Cid]),
-    io:format("Reply to client topic ~p.~n", [Topic]),
-
-    {reply,{bert, Msg},R,S#cx{from=Topic}}.
-
 event(init) ->
     io:format("INIT INDEX PAGE~n"),
-    #cx{session=Token,params=Id,node=Node} = get(context),
+    #cx{session=Token,params=Id,node=Node} = Ctx = get(context),
     Room = n2o:session(room),
     nitro:update(logout,  #button { id=logout,  body="Logout "  ++ n2o:user(),       postback=logout}),
     nitro:update(send,    #button { id=send,    body="Chat",       source=[message], postback=chat}),
-    nitro:update(heading, #h2     { id=heading, body=Room}),
     nitro:update(upload,  #upload { id=attach }),
-    %nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
-    %Topic = iolist_to_binary(["events/1/",Node,"/index/anon/",Id,"/",Token]),
+    nitro:wire("mqtt.subscribe('room/"++Room++"',subscribeOptions);"),
     %n2o_vnode:send_reply('', 2, Topic, term_to_binary(#client{data={Room,list}})),
     nitro:wire(#jq{target=message,method=[focus,select]});
 
