@@ -9,9 +9,9 @@ defmodule Review.App do
       {:_,
        [
          {'/ws/[...]',    :n2o_cowboy, []},
-         {'/n2o/[...]',   :cowboy_static, {:dir, :code.priv_dir(:n2o), mime()}},
-         {'/nitro/[...]', :cowboy_static, {:dir, :code.priv_dir(:nitro) ++ "/js",  mime()}},
-         {'/app/[...]',   :cowboy_static, {:dir, :code.priv_dir(:review) ++ "/static", mime()}}
+         {'/n2o/[...]',   :cowboy_static, {:dir, "deps/n2o/priv", mime()}},
+         {'/nitro/[...]', :cowboy_static, {:dir, "deps/nitro/priv/js",  mime()}},
+         {'/app/[...]',   :cowboy_static, {:dir, "priv/static", mime()}}
        ]}
     ])
    end
