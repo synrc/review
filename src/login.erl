@@ -5,7 +5,7 @@
 -include_lib("nitro/include/nitro.hrl").
 
 event(init) ->
-    nitro:wire("nodes="++nitro:to_list(length(n2o:ring()))++";"),
+    nitro:wire("nodes="++nitro:to_list(length(n2o_ring:members(mqtt)))++";"),
     nitro:update(loginButton,
           #button { id=loginButton, body="login",
                     postback=login,source=[user,pass]});
@@ -15,6 +15,6 @@ event(login) ->
     Room = nitro:to_list(nitro:q(pass)),
     n2o:user(User),
     n2o:session(room,Room),
-    nitro:redirect("/index.htm");
+    nitro:redirect("/app/index.htm");
 
 event(_) -> [].

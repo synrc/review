@@ -20,7 +20,8 @@ defmodule Review.MixProject do
         :mnesia,
         :syn,
         :kvs,
-        :xio,
+        :emqx,
+        :emqtt,
         :nitro,
         :n2o
       ]
@@ -35,10 +36,10 @@ defmodule Review.MixProject do
     {:cowlib, "~> 2.9.1", override: true},
     {:cowboy, "~> 2.8.0", override: true},
     {:ranch,  "~> 1.7.1", override: true},
-    {:xio, github: "erpuno/xio", ref: "v4.2"},
-    {:emqtt, "~> 1.2"},
-    {:rpc, github: "synrc/rpc", ref: "3.1"},
-    {:n2o, github: "synrc/n2o", ref: "master", override: true},    # {:n2o, "~> 7.10.0"}
+    {:emqx,  github: "xio/emqx",    ref: "erp.uno"},
+    {:emqtt, github: "xio/emqtt",   ref: "master"},
+    {:rpc,   github: "synrc/rpc",   ref: "3.1"},
+    {:n2o,   github: "synrc/n2o",   ref: "master", override: true},    # {:n2o, "~> 7.10.0"}
     {:nitro, github: "synrc/nitro", ref: "master", override: true}, # {:nitro, "~> 5.9.1", override: true}
   ]
  end
