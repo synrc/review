@@ -12,12 +12,24 @@ config :n2o,
   pickler: :n2o_secret,
   tables: [:cookies, :mqtt, :async, :caching, :file],
   upload: "./priv/static",
-  protocols: [:nitro_n2o, :n2o_heart, :n2o_ftp],
+  protocols: [:n2o_heart],
+  mqtt_host: {127,0,0,1},
+  mqtt_tcp_port: 1883,
+  mqtt_services: [
+    {:index, [:n2o_ftp, :nitro_n2o]},
+    {:login, [:nitro_n2o]},
+    {:sed, [:n2o_sed]}
+  ],
   ws_services: [],
-  tcp_services: [],
-  mqtt_services: [:index]
+  tcp_services: []
 
 config :emqx,
+  mgmt_port: 8080,
+  default_user_passwd: "public",
+  default_user_username: "admin",
+  max_row_limit: 10000,
+  default_application_id: [],
+  default_application_secret: [],
   allow_anonymous: true,
   acl_file: 'etc/acl.conf',
   max_clientid_len: 65535,
@@ -109,27 +121,5 @@ config :emqx,
           {:send_timeout_close, true},
           {:nodelay, true}
         ]}
-     ]}
-  ]
-
-config :emqx_dashboard,
-  primary_log_level: :info,
-  default_user_passwd: 'public',
-  default_user_username: 'admin',
-  api_providers: [:emqx_management, :emqx_dashboard],
-  listeners: [{:http, 18083, [{:num_acceptors, 4},
-                              {:max_connections, 64000}]}]
-
-config :emqx_management,
-  max_row_limit: 10000,
-  listeners: [
-    {:http, 8080,
-     [
-       {:backlog, 512},
-       {:send_timeout, 15000},
-       {:send_timeout_close, true},
-       {:nodelay, true},
-       {:num_acceptors, 2},
-       {:max_connections, 64000}
      ]}
   ]

@@ -1,9 +1,6 @@
 [submodule "n2o"]
  path = deps/n2o
  url = git@github.com:synrc/n2o.git
-[submodule "emqx_management"]
- path = deps/emqx_management
- url = git@github.com:xio/emqx-management.git
 [submodule "kvs"]
  path = deps/kvs
  url = git@github.com:synrc/kvs.git
