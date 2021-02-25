@@ -6,7 +6,7 @@ defmodule Review.MixProject do
       app: :review,
       version: "1.2.0",
       description: "Review",
-      elixir: "~> 1.10",
+      elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       erlc_paths: ["src"],
       deps: deps()
