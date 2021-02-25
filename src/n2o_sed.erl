@@ -1,9 +1,9 @@
 -module(n2o_sed).
 -description('MIA:CRM protocol').
--compile({parse_transform, bert_javascript}).
--include_lib("review/include/erp/catalogs/employee.hrl").
--include_lib("review/include/erp/catalogs/organization.hrl").
--include_lib("review/include/erp/catalogs/branch.hrl").
+%-compile({parse_transform, bert_javascript}).
+-include("erp/catalogs/employee.hrl").
+-include("erp/catalogs/organization.hrl").
+-include("erp/catalogs/branch.hrl").
 -export([info/3]).
 
 info(#'Employee'{}, Req, State) ->

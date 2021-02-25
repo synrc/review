@@ -1,7 +1,7 @@
 -ifndef(LOCATION_HRL).
 -define(LOCATION_HRL, true).
 
--include_lib("review/include/erp/catalogs/dict.hrl").
+-include("erp/catalogs/dict.hrl").
 
 -record('Loc',   { id          = [] :: [] | binary(),
                    code        = [] :: [] | term(),

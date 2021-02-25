@@ -1,7 +1,7 @@
 -ifndef(ORGANIZATION_HRL).
 -define(ORGANIZATION_HRL, true).
 
--include_lib("review/include/erp/catalogs/location.hrl").
+-include("erp/catalogs/location.hrl").
 
 -record('Organization', { id = [] :: list(),
                           name        = [] :: [] | binary(),

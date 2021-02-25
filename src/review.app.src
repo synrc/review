@@ -1,0 +1,8 @@
+{application,review, [
+    {description,"Review"},
+    {vsn,"git"},
+    {modules,[]},
+    {registered,[]},
+    {applications,[kernel, stdlib, os_mon, syn, mnesia, kvs, nitro, n2o, emqtt, emqx]},
+    {env,[]},
+    {mod,{review,[]}} ]}.
