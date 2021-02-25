@@ -16,15 +16,25 @@ config :n2o,
   mqtt_host: {127,0,0,1},
   mqtt_tcp_port: 1883,
   mqtt_services: [
-    {:index, [:n2o_ftp, :nitro_n2o]},
-    {:login, [:nitro_n2o]},
-    {:sed, [:n2o_sed]}
+    {:index, [
+      {:owner, 34239034},
+      {:protocols, [:n2o_ftp, :nitro_n2o]},
+      {:qos, 2}
+    ]},
+    {:login, [
+      {:owner, 34239034},
+      {:protocols, [:nitro_n2o]}
+    ]},
+    {:sed, [
+      {:owner, 34239034},
+      {:protocols, [:n2o_sed]}
+    ]}
   ],
   ws_services: [],
   tcp_services: []
 
 config :emqx,
-  mgmt_port: 8080,
+  mgmt_port: 8081,
   default_user_passwd: "public",
   default_user_username: "admin",
   max_row_limit: 10000,

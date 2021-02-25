@@ -20,7 +20,7 @@ event(chat) ->
 
 event(#ftp{sid=_Sid,filename=Filename,status={event,stop}}) ->
     Name = hd(lists:reverse(string:tokens(nitro:to_list(Filename),"/"))),
-    Message = nitro:render(#link{href=iolist_to_binary(["/app/",Name]),body=Name}),
+    Message = nitro:render(#link{href=iolist_to_binary(["/",Name]),body=Name}),
     event(#client{data={'$msg',kvs:seq([], []), [], [], n2o:user(), Message}});
 
 event(#client{data={'$msg',_,_,_,User,Message}=Msg}) ->

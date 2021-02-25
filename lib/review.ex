@@ -8,10 +8,11 @@ defmodule Review.App do
     :cowboy_router.compile([
       {:_,
        [
+         {'/',            :cowboy_static, {:file, "priv/static/index.html", mime()}},
          {'/ws/[...]',    :n2o_cowboy, []},
          {'/n2o/[...]',   :cowboy_static, {:dir, "deps/n2o/priv", mime()}},
          {'/nitro/[...]', :cowboy_static, {:dir, "deps/nitro/priv/js",  mime()}},
-         {'/app/[...]',   :cowboy_static, {:dir, "priv/static", mime()}}
+         {'/[...]',       :cowboy_static, {:dir, "priv/static", mime()}}
        ]}
     ])
    end
