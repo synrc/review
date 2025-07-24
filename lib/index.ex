@@ -3,8 +3,8 @@ defmodule Sample.Index do
 
   def room() do
       case :n2o.session(:room) do
-           '' -> "lobby"
-           "" -> "lobby"
+           '' -> "msg"
+           "" -> "msg"
            x -> x
       end
   end
@@ -16,7 +16,7 @@ defmodule Sample.Index do
     :nitro.update(:heading, NITRO.h2(id: :heading, body: room))
     :nitro.update(:logout, NITRO.button(id: :logout, postback: :logout, body: "Logout"))
     :nitro.update(:send, NITRO.button(id: :send, body: "Chat", postback: :chat, source: [:message]))
-    room |> :kvs.all() |> Enum.each(fn {:msg, _, user, message} ->
+    room |> :kvs.feed() |> Enum.each(fn {:msg, _, user, message} ->
       event({:client, {user, message}})
     end)
   end

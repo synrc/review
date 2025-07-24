@@ -3,7 +3,7 @@ use Mix.Config
 config :kvs,
   dba: :kvs_mnesia,
   dba_st: :kvs_stream,
-  schema: [:kvs, :kvs_stream, :emqttd_kvs]
+  schema: [:kvs, :kvs_stream, :emqttd_kvs, :msg]
 
 config :n2o,
   app: :review,

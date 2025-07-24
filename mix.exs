@@ -13,7 +13,7 @@ defmodule Review.MixProject do
  def application do
     [
       mod: {Review.App, []},
-      extra_applications: [:crypto, :bandit, :mnesia, :kvs, :n2o, :nitro, :ranch, :cowboy, :telemetry, :plug],
+      extra_applications: [:crypto, :sasl, :os_mon, :bandit, :mnesia, :kvs, :n2o, :nitro, :ranch, :cowboy, :telemetry, :plug],
       applications: [:gproc, :syn, :emqttd, :emq_dashboard]
     ]
  end
@@ -30,7 +30,7 @@ defmodule Review.MixProject do
     {:n2o,    "~> 11.9.6"},
     {:kvs,    "~> 11.9.1", override: true},
     {:syn,    "~> 2.1.1"},
-    {:nitro,  "~> 9.9.6"},
+    {:nitro,  "~> 7.8.0"},
     {:emq_dashboard, github: "skynet64/emq_dashboard", ref: "master", override: true},
     {:emqttd, github: "skynet64/emqttd", ref: "master", override: true},
     {:emqttc, github: "skynet64/emqttc", ref: "master", override: true}
