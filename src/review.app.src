@@ -1,8 +1,0 @@
-{application,review, [
-    {description,"Review"},
-    {vsn,"4.11.0"},
-    {modules,[]},
-    {registered,[]},
-    {applications,[kernel,stdlib,os_mon,syn,mnesia,kvs,nitro,n2o,emqtt,jsone,gproc,gen_rpc,esockd,cowboy,replayq,ekka,ssl_verify_fun, emqx]},
-    {env,[]},
-    {mod,{review,[]}} ]}.

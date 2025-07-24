@@ -1,7 +1,7 @@
-REVIEW TT: MQTT Application
-===========================
+REVIEW: Telemetry Transport Sample Application
+==============================================
 
-[![Build Status](https://travis-ci.com/synrc/review.svg?branch=master)](https://travis-ci.com/synrc/review)
+[![Hex pm](http://img.shields.io/hexpm/v/review.svg?style=flat&x=1)](https://hex.pm/packages/review)
 
 TL;DR MQTT Sample IoT Application is a Nitro N2O pages that works on top
 of MQTT connection between browser and server.
@@ -104,15 +104,15 @@ Setup
 To run review application just clone, build and run:
 
 ```
-$ git clone git://github.com/synrc/review
-$ cd review
-$ mad dep com pla rep
+$ git clone git://github.com/synrc/review && cd review
+$ mix deps.get
+$ iex -S mix
 ```
 
 Then open it in browser:
 
 ```
-$ open http://127.0.0.1:8000
+$ open http://127.0.0.1:8000/app/index.html
 ```
 
 Credits

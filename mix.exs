@@ -5,10 +5,7 @@ defmodule Review.MixProject do
     [
       app: :review,
       version: "4.11.0",
-      description: "REVIEW TT Sample N2O/MQTT Application",
-      elixir: "~> 1.9",
-      start_permanent: Mix.env() == :prod,
-      erlc_paths: ["src"],
+      description: "Telemetry Transport Sample Application",
       deps: deps()
     ]
  end
@@ -16,31 +13,27 @@ defmodule Review.MixProject do
  def application do
     [
       mod: {Review.App, []},
-      applications: [
-        :mnesia,
-        :syn,
-        :kvs,
-        :emqx,
-        :emqtt,
-        :nitro,
-        :n2o
-      ]
+      extra_applications: [:mnesia, :kvs, :n2o, :nitro, :ranch, :cowboy, :telemetry, :plug],
+      applications: [:gproc, :syn, :emqttd, :emq_dashboard]
     ]
  end
 
  def deps do
   [
-    {:cowlib, "~> 2.9.1", override: true},
-    {:cowboy, "~> 2.8.0", override: true},
-    {:ranch,  "~> 1.7.1", override: true},
-    {:n2o,    "~> 8.8.1", override: true},
-    {:syn,    "~> 2.1.1", override: true},
-    {:kvs,    "~> 8.10.4", override: true},
-    {:rpc,    "~> 3.1.1", override: true},
-    {:nitro,  "~> 6.11.6", override: true},
-    {:getopt, github: "xio/getopt", ref: "master", override: true},
-    {:emqx,   github: "xio/emqx",   ref: "erp.uno"},
-    {:emqtt,  github: "xio/emqtt",  ref: "master"},
+    {:ex_doc, "~> 0.29.0", only: :dev},
+    {:cowlib, "~> 2.15.0", override: true},
+    {:cowboy, "~> 2.13.0", override: true},
+    {:emqtt,  "~> 1.11.0"},
+    {:plug, "~> 1.15.3"},
+    {:bandit, "~> 1.0"},
+    {:websock_adapter, "~> 0.5"},
+    {:n2o,    "~> 11.9.6"},
+    {:kvs,    "~> 11.9.1", override: true},
+    {:syn,    "~> 2.1.1"},
+    {:nitro,  "~> 9.9.6"},
+    {:emq_dashboard, github: "skynet64/emq_dashboard", ref: "master", override: true},
+    {:emqttd, github: "skynet64/emqttd", ref: "master", override: true},
+    {:emqttc, github: "skynet64/emqttc", ref: "master", override: true}
   ]
  end
 end

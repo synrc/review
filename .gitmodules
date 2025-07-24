@@ -1,9 +1,0 @@
-[submodule "n2o"]
- path = deps/n2o
- url = git@github.com:synrc/n2o.git
-[submodule "kvs"]
- path = deps/kvs
- url = git@github.com:synrc/kvs.git
-[submodule "ekka"]
- path = deps/ekka
- url = git@github.com:xio/ekka.git
