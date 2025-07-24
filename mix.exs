@@ -13,7 +13,7 @@ defmodule Review.MixProject do
  def application do
     [
       mod: {Review.App, []},
-      extra_applications: [:mnesia, :kvs, :n2o, :nitro, :ranch, :cowboy, :telemetry, :plug],
+      extra_applications: [:crypto, :bandit, :mnesia, :kvs, :n2o, :nitro, :ranch, :cowboy, :telemetry, :plug],
       applications: [:gproc, :syn, :emqttd, :emq_dashboard]
     ]
  end

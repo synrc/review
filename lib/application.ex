@@ -15,7 +15,7 @@ defmodule Review.App do
   def start(_, _) do
       :kvs.join()
       :n2o.start_mqtt()
-      :io.format 'Application URI: http://localhost:8000/app/index.htm'
+      :io.format 'Application URI: http://localhost:8000/app/index.html'
       children = [ { Bandit, scheme: :http, port: 8000, plug: Sample.Static } ]
       Supervisor.start_link(children, strategy: :one_for_one, name: Sample.Supervisor)
   end

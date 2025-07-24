@@ -20,13 +20,8 @@ defmodule Sample.Index do
       event({:client, {user, message}})
     end)
   end
-  def event(:logout) do :n2o.user([]) ; :nitro.wire("ws.close();") ; :nitro.redirect("/app/login.htm") end
+  def event(:logout) do :n2o.user([]) ; :nitro.redirect("/app/login.html") end
   def event(:chat), do: chat(:nitro.q(:message))
-  def event(N2O.ftp(sid: s, filename: f, status: {:event, :stop})) do
-    name = hd(:lists.reverse(:string.tokens(:nitro.to_list(f), '/')))
-    link = NITRO.link(href: :erlang.iolist_to_binary(["/app/", s, "/", name]), body: name)
-    chat(:nitro.render(link))
-  end
   def event({:client, {user, message}}) do
     :nitro.wire(NITRO.jq(target: :message, method: [:focus, :select]))
     :nitro.insert_top(:history, NITRO.message(body: [NITRO.author(body: user), :nitro.jse(message)]))

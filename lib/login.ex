@@ -9,7 +9,7 @@ defmodule Sample.Login do
       room = :nitro.to_binary(:nitro.q(:room))
       :n2o.user(user)
       :n2o.session(:room, room)
-      :nitro.redirect(["/app/index.htm?room=", room])
+      :nitro.redirect(["/app/index.html?room=", room])
   end
   def event(unexpected), do: unexpected |> inspect() |> Logger.warning()
 end

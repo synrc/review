@@ -10,14 +10,14 @@ config :n2o,
   port: 8000,
   mq: :n2o_syn,
   pickler: :n2o_secret,
+  routes: Review.App,
   tables: [:cookies, :mqtt, :async, :caching, :file],
   upload: "./priv/static",
-  protocols: [:n2o_heart],
+  protocols: [:n2o_heart,:nitro_n2o],
   mqtt_host: {127,0,0,1},
   mqtt_tcp_port: 1883,
-  mqtt_services: [{:index,[{:owner,34239034},{:protocols,[:nitro_n2o]},{:qos,2}]}],
-  ws_services: [],
-  tcp_services: []
+  mqtt_services: [{:index,[{:owner,34239034},{:protocols,[:nitro_n2o]},{:qos,2}]},
+                  {:login,[{:owner,34239034},{:protocols,[:nitro_n2o]},{:qos,2}]}]
 
 config :emq_dashboard,
   listeners_dash: [{:http,18083,[{:acceptors,4},{:max_clients,512}]}],
